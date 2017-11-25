@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  session:
+    timeout: 900
+  context-path: /api
+management:
+  port: 8081
+  context-path: /management
+spring:
+  application.name: second-opinion-api
+  pidfile: ${java.io.tmpdir}/second-api.pid
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    poolName: second-opinion-api-dbconnectionpool
+  jpa:
+    database: MYSQL
+    show-sql: false
+    hibernate:
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: update
+vm:
+  defaultLocale: tr
+  locales: tr,en
+  translation.fileResource: classpath:/i18n/messages_{0}.properties
+  translator.bean.name: defaultTranslator
+  exception.translator:
+    separator: ";"
+    maxSize: 3
+endpoints:
+  autoconfig.enabled: false
+  beans.enabled: false
+  configprops.enabled: false
+  dump.enabled: true
+  env.enabled: false
+  health.enabled: true
+  info.enabled: false
+  mappings.enabled: false
+  metrics.enabled: true
+  shutdown.enabled: false
+  trace.enabled: false
+
+---
+
+spring:
+  profiles: local
+
+
+---
+spring:
+  profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: none
