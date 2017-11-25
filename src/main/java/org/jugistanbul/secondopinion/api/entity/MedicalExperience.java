@@ -5,14 +5,18 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class MedicalExperience {
 	@Id
 	@GeneratedValue
 	private long id;
+	@OneToOne
 	private Expertise expertise;
+	@OneToOne
 	private Hospital hospital;
+	@OneToOne
 	private City city;
 	private LocalDate startDate;
 	private LocalDate endDate;

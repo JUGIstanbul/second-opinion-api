@@ -3,13 +3,16 @@ package org.jugistanbul.secondopinion.api.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class EducationalExperience {
 	@Id
 	@GeneratedValue
 	private long id;
+	@OneToOne
 	private Expertise expertise;
+	@OneToOne
 	private University university;
 	private int gradYear;
 	public long getId() {
