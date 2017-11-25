@@ -1,5 +1,6 @@
 package org.jugistanbul.secondopinion.api.entity;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,15 +8,35 @@ import java.util.Set;
 /**
  * @author Gökalp Gürbüzer (gokalp.gurbuzer@yandex.com)
  */
-public class Case {
+@Entity
+@Table(name = "medical_case")
+public class Case extends EntityBase {
 
+    @ManyToOne
     private Patient patient;
+
+    @Column
     private String nickname;
+
+    @Column
     private LocalDate illnessStartDate;
+
+    @Column
     private String symptoms;
+
+    @Column
     private String note;
+
+    @OneToMany
+    @JoinColumn(name = "case_id")
     private Set<Treatment> treatments = new HashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "case_id")
     private Set<Medicine> medicine = new HashSet<>();
+
+    @Column
+    @Enumerated(EnumType.STRING)
     private CaseStatus status;
 
     public Patient getPatient() {

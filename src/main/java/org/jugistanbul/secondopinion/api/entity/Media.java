@@ -1,11 +1,20 @@
 package org.jugistanbul.secondopinion.api.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * @author Gökalp Gürbüzer (gokalp.gurbuzer@yandex.com)
  */
-public class Media {
+@Entity
+@Table(name = "media")
+public class Media extends EntityBase {
 
+    @Column
     private String url;
+
+    @Column
     private String type;
 
     public String getUrl() {
