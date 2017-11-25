@@ -29,19 +29,21 @@ public class CaseControllerTest extends BaseIT {
     public void should_save_case() throws Exception {
         //given
         Case caseEntity = new Case();
-        caseEntity.setNote("Lorem ipsum dolor sit amet.");
-
 
         //when
         ResponseEntity entity = testRestTemplate.withBasicAuth("1","1").postForEntity("/v1/cases", caseEntity, ResponseEntity.class);
 
+        List<Case> caseList = caseRepository.findAll();
+
         //then
-        assertThat(entity).isNotNull();
+        assertThat(caseList.size()).isEqualTo(1);
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(entity.getHeaders().get(HttpHeaders.LOCATION).get(0)).isEqualTo("/api/v1/cases/1");
     }
 
     @Test
     public void should_delete_case() {
+
         Case caseEntity = new Case();
 
         caseEntity = caseRepository.save(caseEntity);
