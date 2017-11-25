@@ -1,16 +1,29 @@
 package org.jugistanbul.secondopinion.api.entity;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
  * @author Gökalp Gürbüzer (gokalp.gurbuzer@yandex.com)
  */
-public class Medicine {
+@Entity
+@Table(name = "medicine")
+public class Medicine extends EntityBase {
 
+    @Column
     private String name;
-    private String interval;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ApplicationPeriod period;
+
+    @Column
     private Integer frequency;
+
+    @Column
     private String reason;
+
+    @Column
     private LocalDate startDate;
 
     public String getName() {
@@ -21,12 +34,12 @@ public class Medicine {
         this.name = name;
     }
 
-    public String getInterval() {
-        return interval;
+    public ApplicationPeriod getPeriod() {
+        return period;
     }
 
-    public void setInterval(String interval) {
-        this.interval = interval;
+    public void setPeriod(ApplicationPeriod period) {
+        this.period = period;
     }
 
     public Integer getFrequency() {
