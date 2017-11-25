@@ -1,3 +1,9 @@
+spring:
+  application.name: second-opinion-api
+  profiles.active: test
+---
+spring:
+  profiles: test
 server:
   port: 8080
   session:
@@ -38,16 +44,3 @@ endpoints:
   metrics.enabled: true
   shutdown.enabled: false
   trace.enabled: false
-
----
-
-spring:
-  profiles: local
-
-
----
-spring:
-  profiles: prod
-  jpa:
-    hibernate:
-      ddl-auto: none
