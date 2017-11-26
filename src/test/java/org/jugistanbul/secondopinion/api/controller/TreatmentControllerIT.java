@@ -22,9 +22,10 @@ import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertNotNull;
 
-public class TreatmentControllerIT extends BaseIT{
+public class TreatmentControllerIT extends BaseIT {
 
     @Value("${local.server.port}")
     private int serverPort;
@@ -51,7 +52,7 @@ public class TreatmentControllerIT extends BaseIT{
     }
 
     @Test
-    public void should_save_treatment() throws Exception{
+    public void should_save_treatment() throws Exception {
 
         // given
         // when
@@ -63,11 +64,11 @@ public class TreatmentControllerIT extends BaseIT{
         Treatment one = treatmentRepository.findOne(Long.valueOf(id));
         assertNotNull(one);
         assertThat(location.toString(), equalTo("http://localhost:" + serverPort + "/api/v1/treatments/" + id));
-        assertThat(responseEntityResponseEntity.getStatusCode(),equalTo(HttpStatus.CREATED));
+        assertThat(responseEntityResponseEntity.getStatusCode(), equalTo(HttpStatus.CREATED));
     }
 
     @Test
-    public void should_delete_treatment() throws Exception{
+    public void should_delete_treatment() throws Exception {
 
         // given
         ResponseEntity<Void> treatment = getCreateTreatmentResponse();
@@ -79,8 +80,8 @@ public class TreatmentControllerIT extends BaseIT{
         Treatment one = treatmentRepository.findOne(Long.valueOf(id));
 
         // then
-        assertThat(one.getModelStatus(),equalTo(ModelStatus.DELETED));
-        assertThat(HttpStatus.NO_CONTENT,equalTo(deleteResponse.getStatusCode()));
+        assertThat(one.getModelStatus(), equalTo(ModelStatus.DELETED));
+        assertThat(HttpStatus.NO_CONTENT, equalTo(deleteResponse.getStatusCode()));
 
     }
 
@@ -99,7 +100,7 @@ public class TreatmentControllerIT extends BaseIT{
     }
 
     @Test
-    public void should_post_return_406_for_invalid_case() throws Exception{
+    public void should_post_return_406_for_invalid_case() throws Exception {
 
         // given
         Treatment treatmentEntity = new Treatment();
@@ -109,7 +110,7 @@ public class TreatmentControllerIT extends BaseIT{
         ResponseEntity<Void> responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/treatments", treatmentEntity, Void.class);
 
         // then
-        assertThat(responseEntity.getStatusCode(),equalTo(HttpStatus.NOT_ACCEPTABLE));
+        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.NOT_ACCEPTABLE));
 
         // given
         Case caseEntity = new Case();
@@ -119,7 +120,7 @@ public class TreatmentControllerIT extends BaseIT{
         responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/treatments", treatmentEntity, Void.class);
 
         // then
-        assertThat(responseEntity.getStatusCode(),equalTo(HttpStatus.NOT_ACCEPTABLE));
+        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.NOT_ACCEPTABLE));
 
         // given
         caseEntity.setId(121132L);
@@ -128,7 +129,7 @@ public class TreatmentControllerIT extends BaseIT{
         responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/treatments", treatmentEntity, Void.class);
 
         // then
-        assertThat(responseEntity.getStatusCode(),equalTo(HttpStatus.NOT_ACCEPTABLE));
+        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.NOT_ACCEPTABLE));
 
     }
 
@@ -215,6 +216,36 @@ public class TreatmentControllerIT extends BaseIT{
 
         // then
         assertThat(putResponse.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    public void should_get_treatment() throws Exception {
+
+        // given
+        ResponseEntity<Void> createTreatmentResponse = getCreateTreatmentResponse();
+        Long id = RestHelper.extractIdFromURI(createTreatmentResponse.getHeaders().getLocation());
+
+        // when
+        ResponseEntity<Treatment> getResult = testRestTemplate.withBasicAuth("1", "1")
+                .getForEntity("/v1/treatments/" + id, Treatment.class);
+
+        // then
+        assertThat(getResult.getStatusCode(), equalTo(HttpStatus.OK));
+        assertThat(getResult.getBody(), notNullValue());
+        assertThat(getResult.getBody().getId(), equalTo(id));
+    }
+
+    @Test
+    public void should_get_return_404_for_nonexisting_treatment() throws Exception {
+
+        // given
+
+        // when
+        ResponseEntity<Treatment> getResult = testRestTemplate.withBasicAuth("1", "1")
+                .getForEntity("/v1/treatments/23214123", Treatment.class);
+
+        // then
+        assertThat(getResult.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
     }
 
     private ResponseEntity<Void> getCreateTreatmentResponse() {

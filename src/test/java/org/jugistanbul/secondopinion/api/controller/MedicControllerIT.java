@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -66,20 +64,10 @@ public class MedicControllerIT extends BaseIT {
 	}
 	
 	@Test
-	public void ShouldCreateMedic(){
+	public void ShouldSaveMedic(){
         ResponseEntity<Void> entity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/medics", medic, Void.class);
         
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(entity.getHeaders().getLocation()).hasPath("/api/v1/medics/1");
-	}
-	
-	@Test
-	public void ShouldUpdateMedic(){
-		final HttpEntity<Medic> httpEntity = new HttpEntity<>(medic);
-
-		final ResponseEntity<Medic> entity = this.testRestTemplate.withBasicAuth("1", "1").exchange("/v1/medics/1", HttpMethod.PUT, httpEntity,
-				Medic.class);
-		
-        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 }
