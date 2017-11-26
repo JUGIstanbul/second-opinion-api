@@ -23,11 +23,16 @@ public class MedicService {
 	}
 	
 	public Medic save(Medic medic) {
-		for (EducationalExperience educationalExperience : medic.getEducationalExperiences()) {
-			educationalExperience.setMedic(medic);
+		if(medic.getEducationalExperiences() != null) {
+			for (EducationalExperience educationalExperience : medic.getEducationalExperiences()) {
+				educationalExperience.setMedic(medic);
+			}
 		}
-		for (MedicalExperience medicalExperience : medic.getMedicalExperiences()) {
-			medicalExperience.setMedic(medic);
+
+		if(medic.getMedicalExperiences() != null) {
+			for (MedicalExperience medicalExperience : medic.getMedicalExperiences()) {
+				medicalExperience.setMedic(medic);
+			}
 		}
 		
 		Medic newMedic = medicRepository.save(medic);
