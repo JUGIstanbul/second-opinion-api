@@ -31,7 +31,7 @@ public enum NicknameCache {
         return nicknames.get(randomIndex);
     }
 
-    public boolean isNeedReload() {
+    public boolean isReloadNeeded() {
         return nicknames.isEmpty();
     }
 

@@ -57,7 +57,7 @@ public class NicknameCacheTest {
     @Test
     public void should_return_need_reload_when_list_is_empty()
     {
-        assertThat(NicknameCache.INSTANCE.isNeedReload()).isTrue();
+        assertThat(NicknameCache.INSTANCE.isReloadNeeded()).isTrue();
     }
 
     @Test
@@ -71,7 +71,7 @@ public class NicknameCacheTest {
         nicknames.add(new Nickname("hudson"));
 
         NicknameCache.INSTANCE.addAll(nicknames);
-        assertThat(NicknameCache.INSTANCE.isNeedReload()).isFalse();
+        assertThat(NicknameCache.INSTANCE.isReloadNeeded()).isFalse();
     }
 
     @Test
