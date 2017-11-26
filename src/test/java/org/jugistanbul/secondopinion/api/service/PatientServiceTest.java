@@ -50,8 +50,8 @@ public class PatientServiceTest extends BaseMockitoTest {
 
     Patient patient = patientConverter.apply(request);
 
-    //When
-    when(patientRepository.save(any(Patient.class))).thenReturn(patient);
+        //When
+        when(patientRepository.save(any(Patient.class))).thenReturn(patient);
 
     //When
     PatientResponse patientResponse = patientService.create(request);
