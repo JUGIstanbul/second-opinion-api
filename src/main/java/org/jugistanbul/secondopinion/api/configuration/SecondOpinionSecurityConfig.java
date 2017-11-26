@@ -3,6 +3,7 @@ package org.jugistanbul.secondopinion.api.configuration;
 import org.jugistanbul.secondopinion.api.configuration.properties.SecondOpinionSecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,9 +23,10 @@ public class SecondOpinionSecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .disable()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/**")
-                .authenticated()
+                		.authorizeRequests()
+                			.antMatchers(HttpMethod.POST, "/v1/patients").permitAll()
+                			.antMatchers("/**")
+                			.authenticated()
                 .and()
                 .httpBasic();
     }
