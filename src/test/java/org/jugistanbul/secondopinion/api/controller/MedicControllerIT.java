@@ -50,7 +50,7 @@ public class MedicControllerIT extends BaseIT {
 				List.class);
 
 		assertThat(entityList.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(entityList.getBody().size()).isEqualTo(3);
+		assertThat(entityList.getBody().size()).isGreaterThan(2);
 	}
 
 	@Test
