@@ -10,17 +10,21 @@ import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.dto.PatientResponse;
 import org.jugistanbul.secondopinion.api.entity.Patient;
+
 import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
 import org.jugistanbul.secondopinion.api.repository.PatientRepository;
 import org.jugistanbul.secondopinion.api.service.converter.PatientEntityToInformationConverter;
+
 import org.jugistanbul.secondopinion.api.service.converter.PatientRequestToEntityConverter;
 import org.jugistanbul.secondopinion.api.service.validator.PatientValidator;
 import org.junit.Test;
 import org.mockito.Answers;
+
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
 
 public class PatientServiceTest extends BaseMockitoTest {
 
@@ -80,6 +84,7 @@ public class PatientServiceTest extends BaseMockitoTest {
   public void should_retrieve_patient() throws Exception {
     //Given
     Long id = 1L;
+
 
     //When
     PatientInformation patientInformation = patientService.retrievePatient(id);
