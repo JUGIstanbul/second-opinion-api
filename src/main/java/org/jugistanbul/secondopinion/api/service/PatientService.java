@@ -4,10 +4,10 @@ import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.dto.PatientResponse;
 import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.jugistanbul.secondopinion.api.repository.PatientRepository;
+import org.jugistanbul.secondopinion.api.service.converter.PatientEntityToInformationConverter;
 import org.jugistanbul.secondopinion.api.service.converter.PatientRequestToEntityConverter;
 import org.jugistanbul.secondopinion.api.service.validator.PatientValidator;
 import org.springframework.stereotype.Service;
-import org.jugistanbul.secondopinion.api.service.converter.PatientEntityToInformationConverter;
 
 @Service
 public class PatientService {
@@ -44,5 +44,4 @@ public class PatientService {
 
     return patientEntityToInformationConverter.apply(patient);
   }
-
 }

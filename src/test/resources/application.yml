@@ -24,6 +24,7 @@ vm:
     separator: ";"
     maxSize: 3
 api:
+  mediaUploadPath: ${java.io.tmpdir}/second-opinion/media
   security:
     username: 1
     password: 1

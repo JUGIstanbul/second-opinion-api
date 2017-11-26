@@ -19,6 +19,9 @@ public class Media extends EntityBase {
     private String url;
 
     @Column
+    private String fileName;
+
+    @Column
     private String type;
 
     public String getUrl() {
@@ -43,5 +46,13 @@ public class Media extends EntityBase {
 
     public void setTreatment(Treatment treatment) {
         this.treatment = treatment;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

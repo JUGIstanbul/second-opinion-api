@@ -111,25 +111,40 @@ public class TreatmentControllerIT extends BaseIT {
         // then
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.NOT_ACCEPTABLE));
 
+    }
+
+    @Test
+    public void should_post_return_406_for_null_case_id() throws Exception {
         // given
+        Treatment treatmentEntity = new Treatment();
+        treatmentEntity.setDescription("Lorem ipsum");
+
         Case caseEntity = new Case();
         treatmentEntity.setRelevantCase(caseEntity);
 
         // when
-        responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/treatments", treatmentEntity, Void.class);
+        ResponseEntity<Void> responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/treatments", treatmentEntity, Void.class);
 
         // then
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.NOT_ACCEPTABLE));
+    }
 
+    @Test
+    public void should_post_return_406_for_invalid_case_id() throws Exception {
         // given
+        Treatment treatmentEntity = new Treatment();
+        treatmentEntity.setDescription("Lorem ipsum");
+
+        Case caseEntity = new Case();
+        treatmentEntity.setRelevantCase(caseEntity);
+
         caseEntity.setId(121132L);
 
         // when
-        responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/treatments", treatmentEntity, Void.class);
+        ResponseEntity<Void> responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/treatments", treatmentEntity, Void.class);
 
         // then
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.NOT_ACCEPTABLE));
-
     }
 
     @Test
