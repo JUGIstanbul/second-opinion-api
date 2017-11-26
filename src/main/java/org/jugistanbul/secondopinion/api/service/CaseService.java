@@ -1,6 +1,9 @@
 package org.jugistanbul.secondopinion.api.service;
 
+import java.util.List;
+
 import org.jugistanbul.secondopinion.api.entity.Case;
+import org.jugistanbul.secondopinion.api.entity.CaseStatus;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
 import org.jugistanbul.secondopinion.api.repository.CaseRepository;
 import org.springframework.http.HttpHeaders;
@@ -8,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @Transactional
@@ -45,4 +47,10 @@ public class CaseService {
         caseRepository.save(createdCase);
         return new ResponseEntity<>(createdCase,HttpStatus.OK);
     }
+    
+    public List<Case> getUnclosedCases() {
+        List<Case> unclosedCases = caseRepository.findByStatusNot(CaseStatus.CLOSED);
+        return unclosedCases;
+    }
+
 }
