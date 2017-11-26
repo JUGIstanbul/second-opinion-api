@@ -8,5 +8,5 @@ import javax.persistence.Table;
 @Table(name = "patient")
 public class Patient extends Account {
     
+    
 }
-	
