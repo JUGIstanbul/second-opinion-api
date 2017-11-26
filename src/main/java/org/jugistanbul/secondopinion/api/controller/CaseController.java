@@ -29,4 +29,16 @@ public class CaseController {
         return caseService.deleteCase(caseId);
     }
 
+    @GetMapping(value = "/cases/{caseid}")
+    @ResponseBody
+    public ResponseEntity getCaseById(@PathVariable("caseid") Long caseId){
+        return caseService.getCaseById(caseId);
+    }
+
+    @PutMapping(value = "/cases/{caseid}")
+    @ResponseBody
+    public ResponseEntity getCaseById(@PathVariable("caseid") Long caseId ,@RequestBody Case aCase){
+        return caseService.putCase(caseId,aCase);
+    }
+
 }
