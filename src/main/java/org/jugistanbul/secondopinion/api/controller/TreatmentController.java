@@ -1,8 +1,6 @@
 package org.jugistanbul.secondopinion.api.controller;
 
 import org.jugistanbul.secondopinion.api.entity.Treatment;
-import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
-import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
 import org.jugistanbul.secondopinion.api.service.TreatmentService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -45,6 +43,12 @@ public class TreatmentController {
         treatmentService.update(id, treatment);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Treatment get(@PathVariable("id") Long id) {
+
+        return treatmentService.getById(id);
     }
 
 

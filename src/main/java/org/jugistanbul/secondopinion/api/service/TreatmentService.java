@@ -51,4 +51,14 @@ public class TreatmentService {
         treatmentRepository.save(treatment);
 
     }
+
+    public Treatment getById(Long id) {
+        Treatment treatment = treatmentRepository.findOne(id);
+
+        if (treatment == null) {
+            throw new EntityNotFoundException("entity.notFound");
+        }
+
+        return treatment;
+    }
 }
