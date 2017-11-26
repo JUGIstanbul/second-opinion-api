@@ -1,9 +1,10 @@
 package org.jugistanbul.secondopinion.api.service;
 
-import org.jugistanbul.secondopinion.api.dto.PatientRequest;
+import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.dto.PatientResponse;
 import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.jugistanbul.secondopinion.api.repository.PatientRepository;
+import org.jugistanbul.secondopinion.api.service.converter.PatientEntityToInformationConverter;
 import org.jugistanbul.secondopinion.api.service.converter.PatientRequestToEntityConverter;
 import org.jugistanbul.secondopinion.api.service.validator.PatientValidator;
 import org.springframework.stereotype.Service;
@@ -11,28 +12,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class PatientService {
 
-    private PatientValidator patientValidator;
-    
-    private PatientRepository patientRepository;
-    
-    private PatientRequestToEntityConverter patientConverter;
+  private PatientEntityToInformationConverter patientEntityToInformationConverter;
+  private PatientRequestToEntityConverter patientRequestToEntityConverter;
+  private PatientRepository patientRepository;
+  private PatientValidator patientValidator;
 
-    public PatientService(PatientValidator patientValidator, PatientRepository patientRepository, PatientRequestToEntityConverter patientConverter) {
-        this.patientValidator = patientValidator;
-        this.patientRepository = patientRepository;
-        this.patientConverter = patientConverter;
-    }
+  public PatientService(
+      PatientEntityToInformationConverter patientEntityToInformationConverter,
+      PatientRequestToEntityConverter patientRequestToEntityConverter,
+      PatientRepository patientRepository,
+      PatientValidator patientValidator) {
+    this.patientEntityToInformationConverter = patientEntityToInformationConverter;
+    this.patientRequestToEntityConverter = patientRequestToEntityConverter;
+    this.patientRepository = patientRepository;
+    this.patientValidator = patientValidator;
+  }
 
+  public PatientResponse create(PatientInformation request) {
+    patientValidator.validate(request);
+    Patient patient = patientRequestToEntityConverter.apply(request);
+    Patient patientPersisted = patientRepository.save(patient);
+    PatientResponse patientResponse = new PatientResponse();
+    patientResponse.setPatientId(patientPersisted.getId());
 
-    public PatientResponse create(PatientRequest request) {
-        patientValidator.validate(request);
-        
-        Patient patient = patientConverter.apply(request);
-        Patient patientPersisted = patientRepository.save(patient);
+    return patientResponse;
+  }
 
-        PatientResponse patientResponse = new PatientResponse();
-        patientResponse.setPatientId(patientPersisted.getId());
+  public PatientInformation retrievePatient(Long id) {
+    patientValidator.validate(id);
+    Patient patient = patientRepository.findOne(id);
 
-        return patientResponse;
-    }
+    return patientEntityToInformationConverter.apply(patient);
+  }
 }

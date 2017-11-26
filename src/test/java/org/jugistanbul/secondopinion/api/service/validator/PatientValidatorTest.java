@@ -1,17 +1,16 @@
 package org.jugistanbul.secondopinion.api.service.validator;
 
-import org.jugistanbul.secondopinion.api.dto.PatientRequest;
+import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
+import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-@RunWith(MockitoJUnitRunner.class)
-public class PatientValidatorTest {
+
+public class PatientValidatorTest extends BaseMockitoTest {
 
     @InjectMocks
     PatientValidator patientValidator;
@@ -19,10 +18,10 @@ public class PatientValidatorTest {
     @Test
     public void should_throw_exception_when_request_is_null() {
         //given
-        PatientRequest patientRequest = null;
+        PatientInformation patientInformation= null;
 
         //when
-        Throwable throwable = catchThrowable(() -> patientValidator.validate(patientRequest));
+        Throwable throwable = catchThrowable(() -> patientValidator.validate(patientInformation));
 
         //then
         assertThat(throwable).isNotNull();
@@ -33,10 +32,10 @@ public class PatientValidatorTest {
     @Test
     public void should_throw_exception_when_email_is_null() {
         //given
-        PatientRequest patientRequest = new PatientRequest();
+        PatientInformation patientInformation = new PatientInformation();
 
         //when
-        Throwable throwable = catchThrowable(() -> patientValidator.validate(patientRequest));
+        Throwable throwable = catchThrowable(() -> patientValidator.validate(patientInformation));
 
         //then
         assertThat(throwable).isNotNull();
@@ -47,11 +46,11 @@ public class PatientValidatorTest {
     @Test
     public void should_validate_request() {
         //given
-        PatientRequest patientRequest = new PatientRequest();
-        patientRequest.setEmail("test@gmail.com");
+        PatientInformation patientInformation = new PatientInformation();
+        patientInformation.setEmail("test@gmail.com");
 
         //when
-        Throwable throwable = catchThrowable(() -> patientValidator.validate(patientRequest));
+        Throwable throwable = catchThrowable(() -> patientValidator.validate(patientInformation));
 
         //then
         assertThat(throwable).isNull();
