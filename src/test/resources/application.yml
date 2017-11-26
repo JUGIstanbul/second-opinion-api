@@ -1,11 +1,5 @@
 server:
-  port: 8095
-  session:
-    timeout: 900
   context-path: /api
-management:
-  port: 8096
-  context-path: /management
 spring:
   application.name: second-opinion-api
   pidfile: ${java.io.tmpdir}/second-api.pid

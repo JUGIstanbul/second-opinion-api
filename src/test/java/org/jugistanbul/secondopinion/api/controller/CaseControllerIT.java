@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CaseControllerTest extends BaseIT {
+public class CaseControllerIT extends BaseIT {
 
     @Autowired
     TestRestTemplate testRestTemplate;
