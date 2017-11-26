@@ -28,3 +28,4 @@ target/
 .project
 .settings/
 *.iml
+import.sql
