@@ -19,18 +19,25 @@ public class CaseService {
         this.caseRepository = caseRepository;
     }
 
-    public ResponseEntity createCase(Case aCase) {
+    public void createCase(Case aCase) {
         Case saveCase = caseRepository.save(aCase);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.LOCATION, "/api/v1/cases/" + saveCase.getId());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
-
 
     public ResponseEntity deleteCase(Long caseId) {
         Case tempCase = caseRepository.findOne(caseId);
         tempCase.setModelStatus(ModelStatus.DELETED);
         caseRepository.save(tempCase);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity getCaseById(Long caseId) {
+        Case tempCase = caseRepository.findOne(caseId);
+        return new ResponseEntity<>(tempCase,HttpStatus.OK);
+    }
+
+    public ResponseEntity putCase(Long caseId,Case createdCase){
+        createdCase.setId(caseId);
+        caseRepository.save(createdCase);
+        return new ResponseEntity<>(createdCase,HttpStatus.OK);
     }
 }
