@@ -2,7 +2,7 @@ package org.jugistanbul.secondopinion.api.service.validator;
 
 import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
-import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
+import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 
@@ -25,7 +25,7 @@ public class PatientValidatorTest extends BaseMockitoTest {
 
         //then
         assertThat(throwable).isNotNull();
-        assertThat(throwable).isInstanceOf(EntityValidationException.class);
+        assertThat(throwable).isInstanceOf(EntityNotFoundException.class);
         assertThat(throwable).hasMessage("request.missing");
     }
 
@@ -39,7 +39,7 @@ public class PatientValidatorTest extends BaseMockitoTest {
 
         //then
         assertThat(throwable).isNotNull();
-        assertThat(throwable).isInstanceOf(EntityValidationException.class);
+        assertThat(throwable).isInstanceOf(EntityNotFoundException.class);
         assertThat(throwable).hasMessage("email.required");
     }
 
