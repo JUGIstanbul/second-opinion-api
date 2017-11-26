@@ -1,8 +1,8 @@
 package org.jugistanbul.secondopinion.api.repository;
 
 import org.jugistanbul.secondopinion.api.entity.EducationalExperience;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EducationalExperienceRepository extends CrudRepository<EducationalExperience, Long>{
+public interface EducationalExperienceRepository extends JpaRepository<EducationalExperience, Long> {
 
 }

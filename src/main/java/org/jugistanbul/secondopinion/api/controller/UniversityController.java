@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/universities")
-public class University {
+public class UniversityController {
 
     @Autowired
     public UniversityRepository universityRepository;
