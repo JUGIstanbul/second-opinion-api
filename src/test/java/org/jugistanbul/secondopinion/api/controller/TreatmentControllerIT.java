@@ -1,5 +1,6 @@
 package org.jugistanbul.secondopinion.api.controller;
 
+import org.jugistanbul.secondopinion.api.RestHelper;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.HashSet;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -59,7 +59,7 @@ public class TreatmentControllerIT extends BaseIT{
 
         //then
         URI location = responseEntityResponseEntity.getHeaders().getLocation();
-        String id = extractIdFromURI(location);
+        String id = RestHelper.extractIdStringFromURI(location);
         Treatment one = treatmentRepository.findOne(Long.valueOf(id));
         assertNotNull(one);
         assertThat(location.toString(), equalTo("http://localhost:" + serverPort + "/api/v1/treatments/" + id));
@@ -72,7 +72,7 @@ public class TreatmentControllerIT extends BaseIT{
         // given
         ResponseEntity<Void> treatment = getCreateTreatmentResponse();
         URI location = treatment.getHeaders().getLocation();
-        String id = extractIdFromURI(location);
+        String id = RestHelper.extractIdStringFromURI(location);
 
         // when
         ResponseEntity<Void> deleteResponse = testRestTemplate.withBasicAuth("1", "1").exchange("/v1/treatments/" + id, HttpMethod.DELETE, HttpEntity.EMPTY, Void.class);
@@ -138,7 +138,7 @@ public class TreatmentControllerIT extends BaseIT{
         // given
         ResponseEntity<Void> response = getCreateTreatmentResponse();
         URI location = response.getHeaders().getLocation();
-        String id = extractIdFromURI(location);
+        String id = RestHelper.extractIdStringFromURI(location);
 
         Treatment savedTreatment = treatmentRepository.findOne(Long.parseLong(id));
         savedTreatment.setDescription("New Description, Updated");
@@ -164,7 +164,7 @@ public class TreatmentControllerIT extends BaseIT{
         // given
         ResponseEntity<Void> postResponse = getCreateTreatmentResponse();
         URI location = postResponse.getHeaders().getLocation();
-        String id = extractIdFromURI(location);
+        String id = RestHelper.extractIdStringFromURI(location);
 
         Treatment savedTreatment = treatmentRepository.findOne(Long.parseLong(id));
         savedTreatment.setRelevantCase(null);
@@ -205,7 +205,7 @@ public class TreatmentControllerIT extends BaseIT{
         // given
         ResponseEntity<Void> response = getCreateTreatmentResponse();
         URI location = response.getHeaders().getLocation();
-        String id = extractIdFromURI(location);
+        String id = RestHelper.extractIdStringFromURI(location);
 
         Treatment savedTreatment = treatmentRepository.findOne(Long.parseLong(id));
 
@@ -215,11 +215,6 @@ public class TreatmentControllerIT extends BaseIT{
 
         // then
         assertThat(putResponse.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
-    }
-
-    private String extractIdFromURI(URI location) {
-        String[] split = location.getPath().split("\\/");
-        return split[split.length - 1];
     }
 
     private ResponseEntity<Void> getCreateTreatmentResponse() {
