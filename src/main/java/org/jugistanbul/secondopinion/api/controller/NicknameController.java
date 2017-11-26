@@ -9,7 +9,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/v1/nicknames")
+@RestController
+@RequestMapping("/v1/nicknames")
 public class NicknameController {
 
     private NicknameService nicknameService;

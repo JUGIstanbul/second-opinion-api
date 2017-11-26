@@ -1,6 +1,6 @@
 package org.jugistanbul.secondopinion.api.dto;
 
-public class PatientRequest {
+public class PatientInformation {
 
     private String username;
     private String password;

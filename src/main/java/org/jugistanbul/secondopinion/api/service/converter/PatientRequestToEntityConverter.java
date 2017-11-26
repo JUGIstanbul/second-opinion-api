@@ -2,25 +2,22 @@ package org.jugistanbul.secondopinion.api.service.converter;
 
 import java.util.function.Function;
 
-import org.jugistanbul.secondopinion.api.dto.PatientRequest;
+import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PatientRequestToEntityConverter implements Function<PatientRequest, Patient> {
+public class PatientRequestToEntityConverter implements Function<PatientInformation,Patient> {
 
 	@Override
-	public Patient apply(PatientRequest patientRequest) {
+	public Patient apply(PatientInformation patientInformation) {
 
 		Patient patient = new Patient();
-		patient.setEmail(patientRequest.getEmail());
-		patient.setPassword(patientRequest.getPassword());
-		patient.setUsername(patientRequest.getUsername());
-		patient.setPhone(patientRequest.getPhone());
+		patient.setEmail(patientInformation.getEmail());
+		patient.setPassword(patientInformation.getPassword());
+		patient.setUsername(patientInformation.getUsername());
+		patient.setPhone(patientInformation.getPhone());
 		
 		return patient;
 	}
-
-
-	
 }
