@@ -1,6 +1,7 @@
 package org.jugistanbul.secondopinion.api.controller;
 
 import org.jugistanbul.secondopinion.api.RestHelper;
+import org.jugistanbul.secondopinion.api.TestEntityHelper;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
@@ -37,18 +38,16 @@ public class TreatmentControllerIT extends BaseIT {
     private TreatmentRepository treatmentRepository;
 
     @Autowired
+    private TestEntityHelper testEntityHelper;
+
+    @Autowired
     private CaseRepository caseRepository;
 
     private Case theCase;
 
     @Before
     public void createTestMedicalCase() {
-        theCase = new Case();
-        theCase.setIllnessStartDate(LocalDate.MAX);
-        theCase.setNickname("R2-D2");
-        theCase.setNote("Lorem ipsum dolor sit amet");
-
-        theCase = caseRepository.save(theCase);
+        theCase = testEntityHelper.createTestMedicalCase();
     }
 
     @Test
