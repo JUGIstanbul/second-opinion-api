@@ -5,7 +5,7 @@ public class PatientResponse {
     private String status;
     private String errorCode;
     private String errorMessage;
-    private String patientId;
+    private long patientId;
 
     public String getStatus() {
         return status;
@@ -31,11 +31,11 @@ public class PatientResponse {
         this.errorMessage = errorMessage;
     }
 
-    public String getPatientId() {
+    public long getPatientId() {
         return patientId;
     }
 
-    public void setPatientId(String patientId) {
+    public void setPatientId(long patientId) {
         this.patientId = patientId;
     }
 }
