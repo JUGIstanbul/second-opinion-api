@@ -18,7 +18,9 @@ install:
   - 'mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V'
 
 script:
-  - 'mvn test jacoco:report'
+  - 'mvn test'
+  - 'mvn verify -Dit'
+  - 'mvn jacoco:report'
   - 'mvn sonar:sonar'
 
 after_success:

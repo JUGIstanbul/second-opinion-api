@@ -3,7 +3,7 @@ package org.jugistanbul.secondopinion.api.service;
 import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
 import org.jugistanbul.secondopinion.api.dto.PatientRequest;
 import org.jugistanbul.secondopinion.api.dto.PatientResponse;
-import org.jugistanbul.secondopinion.api.exception.PatientValidationException;
+import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
 import org.jugistanbul.secondopinion.api.service.validator.PatientValidator;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 
 public class PatientServiceTest extends BaseMockitoTest {
 
@@ -45,13 +44,13 @@ public class PatientServiceTest extends BaseMockitoTest {
         //Given
         PatientRequest request = null;
 
-        doThrow(PatientValidationException.class).when(patientValidator).validate(request);
+        doThrow(EntityValidationException.class).when(patientValidator).validate(request);
 
         //When
         Throwable throwable = catchThrowable(() -> patientService.create(request));
 
         //Then
         assertThat(throwable).isNotNull();
-        assertThat(throwable).isInstanceOf(PatientValidationException.class);
+        assertThat(throwable).isInstanceOf(EntityValidationException.class);
     }
 }
