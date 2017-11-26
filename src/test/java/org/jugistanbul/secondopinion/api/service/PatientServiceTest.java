@@ -1,5 +1,11 @@
 package org.jugistanbul.secondopinion.api.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
+
 import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.dto.PatientResponse;
@@ -33,8 +39,6 @@ public class PatientServiceTest extends BaseMockitoTest {
     @Mock
     PatientRepository patientRepository;
 
-
-    //Happy path
     @Test
     public void should_create_patient() throws Exception {
         //Given
@@ -46,7 +50,7 @@ public class PatientServiceTest extends BaseMockitoTest {
 
         Patient patient = patientConverter.apply(request);
 
-        //When
+       //When
         when(patientRepository.save(any(Patient.class))).thenReturn(patient);
 
         //When
