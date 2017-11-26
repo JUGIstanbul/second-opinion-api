@@ -1,5 +1,6 @@
 package org.jugistanbul.secondopinion.api.controller;
 
+import org.jugistanbul.secondopinion.api.RestHelper;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
@@ -11,10 +12,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class CaseControllerIT extends BaseIT {
 
@@ -31,13 +34,14 @@ public class CaseControllerIT extends BaseIT {
 
         //when
         ResponseEntity entity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/cases", caseEntity, ResponseEntity.class);
+        Long id = RestHelper.extractIdFromURI(entity.getHeaders().getLocation());
 
-        List<Case> caseList = caseRepository.findAll();
+        Case theCase = caseRepository.findOne(id);
 
         //then
-        assertThat(caseList.size()).isEqualTo(1);
+        assertThat(theCase).isNotNull();
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(entity.getHeaders().get(HttpHeaders.LOCATION).get(0)).isEqualTo("/api/v1/cases/1");
+        assertThat(entity.getHeaders().getLocation().toString()).isEqualTo("/api/v1/cases/" + id);
     }
 
     @Test
@@ -85,9 +89,9 @@ public class CaseControllerIT extends BaseIT {
         assertThat(entity).isNotNull();
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
-        List<Case> caseList = caseRepository.findAll();
+        Case theCase = caseRepository.findOne(caseEntity.getId());
 
-        assertThat(caseList.size()).isEqualTo(1);
-        assertThat(caseList.get(0).getModelStatus()).isEqualTo(ModelStatus.DELETED);
+        assertThat(theCase).isNotNull();
+        assertThat(theCase.getModelStatus()).isEqualTo(ModelStatus.DELETED);
     }
 }

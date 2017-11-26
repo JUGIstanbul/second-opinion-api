@@ -14,7 +14,10 @@ public class Treatment extends EntityBase {
     @Column
     private String description;
 
-    @OneToMany
+    @ManyToOne
+    private Case relevantCase;
+
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "treatment_id")
     private Set<Media> media = new HashSet<>();
 
@@ -32,6 +35,14 @@ public class Treatment extends EntityBase {
 
     public void setMedia(Set<Media> media) {
         this.media = media;
+    }
+
+    public Case getRelevantCase() {
+        return relevantCase;
+    }
+
+    public void setRelevantCase(Case relevantCase) {
+        this.relevantCase = relevantCase;
     }
 }
 

@@ -16,10 +16,10 @@ public abstract class EntityBase implements Serializable {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private ModelStatus modelStatus;
+    private ModelStatus modelStatus = ModelStatus.ACTIVE;
 
     @Column
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     @Column
     private LocalDateTime lastUpdateDate;

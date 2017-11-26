@@ -27,17 +27,12 @@ public class Case extends EntityBase {
     @Column
     private String note;
 
-    @OneToMany
-    @JoinColumn(name = "case_id")
-    private Set<Treatment> treatments = new HashSet<>();
-
-    @OneToMany
-    @JoinColumn(name = "case_id")
-    private Set<Medicine> medicine = new HashSet<>();
-
     @Column
     @Enumerated(EnumType.STRING)
     private CaseStatus status;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Treatment> treatments = new HashSet<>();
 
     public Patient getPatient() {
         return patient;
@@ -79,27 +74,19 @@ public class Case extends EntityBase {
         this.note = note;
     }
 
-    public Set<Treatment> getTreatments() {
-        return treatments;
-    }
-
-    public void setTreatments(Set<Treatment> treatments) {
-        this.treatments = treatments;
-    }
-
-    public Set<Medicine> getMedicine() {
-        return medicine;
-    }
-
-    public void setMedicine(Set<Medicine> medicine) {
-        this.medicine = medicine;
-    }
-
     public CaseStatus getStatus() {
         return status;
     }
 
     public void setStatus(CaseStatus status) {
         this.status = status;
+    }
+
+    public Set<Treatment> getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(Set<Treatment> treatments) {
+        this.treatments = treatments;
     }
 }

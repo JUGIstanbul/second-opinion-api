@@ -1,17 +1,21 @@
 package org.jugistanbul.secondopinion.api.dto;
 
-public class PatientResponse extends Response {
+import org.jugistanbul.secondopinion.api.dto.enumtype.RequestStatus;
 
-    private String status;
+/**
+ * @author Gökalp Gürbüzer (gokalp.gurbuzer@yandex.com)
+ */
+public class Response {
+
+    private RequestStatus status;
     private String errorCode;
     private String errorMessage;
-    private long patientId;
 
-    public String getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RequestStatus status) {
         this.status = status;
     }
 
@@ -29,11 +33,5 @@ public class PatientResponse extends Response {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
-    }
-
-    public long getPatientId() {
-
-    public void setPatientId(long patientId) {
-        this.patientId = patientId;
     }
 }

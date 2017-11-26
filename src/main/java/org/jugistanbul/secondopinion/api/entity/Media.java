@@ -2,6 +2,7 @@ package org.jugistanbul.secondopinion.api.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -10,6 +11,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "media")
 public class Media extends EntityBase {
+
+    @ManyToOne
+    private Treatment treatment;
 
     @Column
     private String url;
@@ -31,5 +35,13 @@ public class Media extends EntityBase {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Treatment getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(Treatment treatment) {
+        this.treatment = treatment;
     }
 }
