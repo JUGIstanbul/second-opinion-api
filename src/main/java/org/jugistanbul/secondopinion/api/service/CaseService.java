@@ -2,13 +2,17 @@ package org.jugistanbul.secondopinion.api.service;
 
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
+import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
 import org.jugistanbul.secondopinion.api.repository.CaseRepository;
+import org.jugistanbul.secondopinion.api.service.validator.CaseValidator;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
+import javax.persistence.criteria.*;
+
+import java.util.Map;
 
 @Service
 @Transactional
@@ -16,11 +20,15 @@ public class CaseService {
 
     private CaseRepository caseRepository;
 
-    public CaseService(CaseRepository caseRepository) {
+    private CaseValidator caseValidator;
+
+    public CaseService(CaseRepository caseRepository, CaseValidator caseValidator) {
         this.caseRepository = caseRepository;
+        this.caseValidator = caseValidator;
     }
 
     public ResponseEntity createCase(Case aCase) {
+        caseValidator.validate(aCase);
         Case saveCase = caseRepository.save(aCase);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.LOCATION, "/api/v1/cases/" + saveCase.getId());
@@ -30,6 +38,8 @@ public class CaseService {
 
     public ResponseEntity deleteCase(Long caseId) {
         Case tempCase = caseRepository.findOne(caseId);
+        if (tempCase == null)
+            throw new EntityNotFoundException("entity.notFound");
         tempCase.setModelStatus(ModelStatus.DELETED);
         caseRepository.save(tempCase);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -37,12 +47,22 @@ public class CaseService {
 
     public ResponseEntity getCaseById(Long caseId) {
         Case tempCase = caseRepository.findOne(caseId);
-        return new ResponseEntity<>(tempCase,HttpStatus.OK);
+        if (tempCase == null)
+            throw new EntityNotFoundException("entity.notFound");
+        return new ResponseEntity<>(tempCase, HttpStatus.OK);
     }
 
-    public ResponseEntity putCase(Long caseId,Case createdCase){
-        createdCase.setId(caseId);
+    public ResponseEntity updateCase(Long caseId, Case createdCase) {
+        Case tempCase = caseRepository.findOne(caseId);
+        if (tempCase == null)
+            throw new EntityNotFoundException("entity.notFound");
+        caseValidator.validate(createdCase);
+        createdCase.setId(tempCase.getId());
         caseRepository.save(createdCase);
-        return new ResponseEntity<>(createdCase,HttpStatus.OK);
+        return new ResponseEntity<>(createdCase, HttpStatus.OK);
     }
+
+
+
+
 }
