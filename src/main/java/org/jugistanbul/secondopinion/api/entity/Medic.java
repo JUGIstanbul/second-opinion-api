@@ -1,6 +1,11 @@
 package org.jugistanbul.secondopinion.api.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Medic extends Account {
@@ -9,6 +14,12 @@ public class Medic extends Account {
 	private String licenseNumber;
 	private String refferalCode;
 	private String currentTitle;
+	private long reputationPoints;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "medic", cascade = CascadeType.ALL)
+	private Set<EducationalExperience> educationalExperiences;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "medic", cascade = CascadeType.ALL)
+	private Set<MedicalExperience> medicalExperiences;
 
 	public String getFullname() {
 		return fullname;
@@ -58,6 +69,20 @@ public class Medic extends Account {
 		this.reputationPoints = reputationPoints;
 	}
 
-	private long reputationPoints;
+	public Set<EducationalExperience> getEducationalExperiences() {
+		return educationalExperiences;
+	}
+
+	public void setEducationalExperiences(Set<EducationalExperience> educationalExperiences) {
+		this.educationalExperiences = educationalExperiences;
+	}
+
+	public Set<MedicalExperience> getMedicalExperiences() {
+		return medicalExperiences;
+	}
+
+	public void setMedicalExperiences(Set<MedicalExperience> medicalExperiences) {
+		this.medicalExperiences = medicalExperiences;
+	}
 
 }

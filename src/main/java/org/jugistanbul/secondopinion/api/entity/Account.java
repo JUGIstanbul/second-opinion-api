@@ -1,6 +1,7 @@
 package org.jugistanbul.secondopinion.api.entity;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,19 +11,21 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Account {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;
-
+	
 	private String username;
 	private String password;
 	private String email;
 	private String phone;
 	private String address;
-	private LocalDate birthDate;
+	private Date birthDate;
 	private String gender;
+	private LocalDate lastLogin;
 	
 	public Account(){}
 
@@ -74,11 +77,11 @@ public class Account {
 		this.address = address;
 	}
 
-	public LocalDate getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -97,6 +100,4 @@ public class Account {
 	public void setLastLogin(LocalDate lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-
-	private LocalDate lastLogin;
 }

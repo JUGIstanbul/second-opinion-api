@@ -1,11 +1,14 @@
 package org.jugistanbul.secondopinion.api.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class MedicalExperience {
@@ -18,8 +21,12 @@ public class MedicalExperience {
 	private Hospital hospital;
 	@OneToOne
 	private City city;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private Date startDate;
+	private Date endDate;
+
+	@ManyToOne
+	@JsonIgnore
+	private Medic medic;
 	
 	public long getId() {
 		return id;
@@ -45,16 +52,22 @@ public class MedicalExperience {
 	public void setCity(City city) {
 		this.city = city;
 	}
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public LocalDate getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	public Medic getMedic() {
+		return medic;
+	}
+	public void setMedic(Medic medic) {
+		this.medic = medic;
 	}
 }
