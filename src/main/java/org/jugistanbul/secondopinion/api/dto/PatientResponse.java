@@ -4,7 +4,6 @@ public class PatientResponse extends Response {
 
     private long patientId;
 
-
     public long getPatientId() {
         return patientId;
     }
