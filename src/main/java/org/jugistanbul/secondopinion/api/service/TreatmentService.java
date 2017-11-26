@@ -8,8 +8,10 @@ import org.jugistanbul.secondopinion.api.repository.CaseRepository;
 import org.jugistanbul.secondopinion.api.repository.TreatmentRepository;
 import org.jugistanbul.secondopinion.api.service.validator.TreatmentValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class TreatmentService {
 
     private TreatmentRepository treatmentRepository;

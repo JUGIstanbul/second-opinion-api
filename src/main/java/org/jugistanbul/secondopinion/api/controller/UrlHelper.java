@@ -7,7 +7,6 @@ public class UrlHelper {
         String scheme = request.getScheme() + "://";
         String serverName = request.getServerName();
         String serverPort = (request.getServerPort() == 80) ? "" : ":" + request.getServerPort();
-        String contextPath = request.getContextPath();
         return scheme + serverName + serverPort + request.getRequestURI();
     }
 }

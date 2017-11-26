@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(value = "/v1/treatments")
+@RequestMapping("/v1/treatments")
 public class TreatmentController {
 
     private final TreatmentService treatmentService;
@@ -19,34 +19,33 @@ public class TreatmentController {
         this.treatmentService = treatmentService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity save(HttpServletRequest httpServletRequest, @RequestBody Treatment treatment) {
 
         Treatment savedTreatment = treatmentService.save(treatment);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.LOCATION, UrlHelper.getFullRequestUrl(httpServletRequest) + "/"
-               + savedTreatment.getId());
+        headers.add(HttpHeaders.LOCATION,
+                UrlHelper.getFullRequestUrl(httpServletRequest) + "/" + savedTreatment.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
 
         treatmentService.delete(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Long id, @RequestBody Treatment treatment) {
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@PathVariable Long id, @RequestBody Treatment treatment) {
 
         treatmentService.update(id, treatment);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public Treatment get(@PathVariable("id") Long id) {
+    public Treatment get(@PathVariable Long id) {
 
         return treatmentService.getById(id);
     }
