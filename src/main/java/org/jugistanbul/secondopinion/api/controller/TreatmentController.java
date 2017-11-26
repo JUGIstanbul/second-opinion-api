@@ -1,8 +1,8 @@
 package org.jugistanbul.secondopinion.api.controller;
 
 import org.jugistanbul.secondopinion.api.entity.Treatment;
-import org.jugistanbul.secondopinion.api.service.EntityNotFoundException;
-import org.jugistanbul.secondopinion.api.service.EntityValidationException;
+import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
+import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
 import org.jugistanbul.secondopinion.api.service.TreatmentService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class TreatmentController {
     }
 
     @PostMapping()
-    public ResponseEntity save(HttpServletRequest httpServletRequest, @RequestBody Treatment treatment) throws EntityValidationException {
+    public ResponseEntity save(HttpServletRequest httpServletRequest, @RequestBody Treatment treatment) {
 
         Treatment savedTreatment = treatmentService.save(treatment);
 
@@ -33,10 +33,18 @@ public class TreatmentController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id) throws EntityNotFoundException {
+    public ResponseEntity delete(@PathVariable("id") Long id) {
 
         treatmentService.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@PathVariable("id") Long id, @RequestBody Treatment treatment) {
+
+        treatmentService.update(id, treatment);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

@@ -1,14 +1,14 @@
 package org.jugistanbul.secondopinion.api.service.validator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-
 import org.jugistanbul.secondopinion.api.dto.PatientRequest;
-import org.jugistanbul.secondopinion.api.exception.PatientValidationException;
+import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientValidatorTest {
@@ -26,7 +26,7 @@ public class PatientValidatorTest {
 
         //then
         assertThat(throwable).isNotNull();
-        assertThat(throwable).isInstanceOf(PatientValidationException.class);
+        assertThat(throwable).isInstanceOf(EntityValidationException.class);
         assertThat(throwable).hasMessage("request.missing");
     }
 
@@ -40,7 +40,7 @@ public class PatientValidatorTest {
 
         //then
         assertThat(throwable).isNotNull();
-        assertThat(throwable).isInstanceOf(PatientValidationException.class);
+        assertThat(throwable).isInstanceOf(EntityValidationException.class);
         assertThat(throwable).hasMessage("email.required");
     }
 

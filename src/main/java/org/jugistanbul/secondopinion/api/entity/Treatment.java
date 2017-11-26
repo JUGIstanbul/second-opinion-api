@@ -17,7 +17,7 @@ public class Treatment extends EntityBase {
     @ManyToOne
     private Case relevantCase;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "treatment_id")
     private Set<Media> media = new HashSet<>();
 

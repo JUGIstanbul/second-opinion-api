@@ -10,6 +10,9 @@ import java.time.LocalDate;
 @Table(name = "medicine")
 public class Medicine extends EntityBase {
 
+    @ManyToOne
+    private Case relevantCase;
+
     @Column
     private String name;
 
@@ -64,5 +67,13 @@ public class Medicine extends EntityBase {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public Case getRelevantCase() {
+        return relevantCase;
+    }
+
+    public void setRelevantCase(Case relevantCase) {
+        this.relevantCase = relevantCase;
     }
 }
