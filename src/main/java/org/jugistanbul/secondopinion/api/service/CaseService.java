@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @Transactional
@@ -19,9 +20,13 @@ public class CaseService {
         this.caseRepository = caseRepository;
     }
 
-    public void createCase(Case aCase) {
+    public ResponseEntity createCase(Case aCase) {
         Case saveCase = caseRepository.save(aCase);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.LOCATION, "/api/v1/cases/" + saveCase.getId());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+
 
     public ResponseEntity deleteCase(Long caseId) {
         Case tempCase = caseRepository.findOne(caseId);
