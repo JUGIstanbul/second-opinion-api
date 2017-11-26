@@ -21,7 +21,6 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class NicknameControllerIT extends BaseIT {
 
-
     @Autowired
     TestRestTemplate restTemplate;
 
@@ -31,8 +30,7 @@ public class NicknameControllerIT extends BaseIT {
     private List<Nickname> nicknames;
 
     @Before
-    public void fillNicknames()
-    {
+    public void fillNicknames() {
         nicknames = new ArrayList<>();
         nicknames.add(new Nickname("taylan"));
         nicknames.add(new Nickname("michael"));
@@ -43,30 +41,28 @@ public class NicknameControllerIT extends BaseIT {
     }
 
     @After
-    public void emptyNicknames()
-    {
+    public void emptyNicknames() {
         nicknameRepository.deleteAll();
         NicknameCache.INSTANCE.clear();
     }
 
     @Test
-    public void should_suggestanickname_frompredefinedlist()
-    {
+    public void should_suggestanickname_frompredefinedlist() {
         // Given
         nicknameRepository.save(nicknames);
+
         // When
-        ResponseEntity<Nickname> responseEntity = restTemplate.withBasicAuth("1","1").getForEntity("/api/v1/nicknames", Nickname.class);
+        ResponseEntity<Nickname> responseEntity = restTemplate.withBasicAuth("1","1").getForEntity("/v1/nicknames", Nickname.class);
         // Then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isIn(nicknames);
     }
 
     @Test
-    public void should_return_nocontent()
-    {
+    public void should_return_nocontent() {
         // Given
         // When
-        ResponseEntity<Nickname> responseEntity = restTemplate.withBasicAuth("1","1").getForEntity("/api/v1/nicknames", Nickname.class);
+        ResponseEntity<Nickname> responseEntity = restTemplate.withBasicAuth("1","1").getForEntity("/v1/nicknames", Nickname.class);
         // Then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(responseEntity.getBody()).isNull();
