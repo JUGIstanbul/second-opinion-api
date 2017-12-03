@@ -17,7 +17,7 @@ spring:
     show-sql: false
     hibernate:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-      ddl-auto: create
+      ddl-auto: validate
 vm:
   defaultLocale: tr
   locales: tr,en
