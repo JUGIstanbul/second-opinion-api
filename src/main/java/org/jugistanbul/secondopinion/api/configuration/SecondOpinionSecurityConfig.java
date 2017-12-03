@@ -23,10 +23,9 @@ public class SecondOpinionSecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .disable()
                 .and()
-                		.authorizeRequests()
-                			.antMatchers(HttpMethod.POST, "/v1/patients").permitAll()
-                			.antMatchers("/**")
-                			.authenticated()
+                .authorizeRequests()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/**").authenticated()
                 .and()
                 .httpBasic();
     }
