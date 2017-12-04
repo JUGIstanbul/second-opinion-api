@@ -1,5 +1,6 @@
 package org.jugistanbul.secondopinion.api.utils;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.BeanUtils;
@@ -14,16 +15,21 @@ public class ObjectUtils {
   }
 
   public static String[] getNullPropertyNames (Object source) {
+    // we should not change current id
+    String[] notCopiedAttributes = {"id"};
+    return getNullPropertyNames(source, new HashSet<String>(Arrays.asList(notCopiedAttributes)));
+  }
+
+  public static String[] getNullPropertyNames (Object source, Set<String> notCopiedAttributes) {
     final BeanWrapper src = new BeanWrapperImpl(source);
     java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
-    Set<String> emptyNames = new HashSet<String>();
+    Set<String> emptyNames = new HashSet(notCopiedAttributes);
     for(java.beans.PropertyDescriptor pd : pds) {
       Object srcValue = src.getPropertyValue(pd.getName());
       if (srcValue == null) emptyNames.add(pd.getName());
     }
-    // we should not change current id
-    emptyNames.add("id");
+
     String[] result = new String[emptyNames.size()];
     return emptyNames.toArray(result);
   }
