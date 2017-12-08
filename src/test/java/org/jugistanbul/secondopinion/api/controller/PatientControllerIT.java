@@ -92,6 +92,11 @@ public class PatientControllerIT extends BaseIT {
     request.setPhone("05309541111");
     request.setGender("Bay");
     request.setAddress("Istanbul");
+    request.setJob("Mühendis");
+    request.setAddictiveDrugProfile("Ekstazi");
+    request.setAlcoholConsumptionProfile("Haftada bir");
+    request.setSmokerProfile("Günde yarım paket");
+
 
     HttpEntity<PatientInformation> requestEntity = new HttpEntity<PatientInformation>(request);
 
@@ -113,6 +118,10 @@ public class PatientControllerIT extends BaseIT {
     assertThat(responseEntity.getBody().getGender().equals("Bay"));
     assertThat(responseEntity.getBody().getAddress().equals("Istanbul"));
     assertThat(responseEntity.getBody().getPhone().equals("05309541111"));
+    assertThat(responseEntity.getBody().getJob().equals("Mühendis"));
+    assertThat(responseEntity.getBody().getAddictiveDrugProfile().equals("Ekstazi"));
+    assertThat(responseEntity.getBody().getAlcoholConsumptionProfile().equals("Haftada bir"));
+    assertThat(responseEntity.getBody().getSmokerProfile().equals("Günde yarım paket"));
 
   }
 }

@@ -55,7 +55,7 @@ public class PatientService {
     Patient newPatient = patientRequestToEntityConverter.convert(request);
 
 
-    ObjectUtils.myCopyProperties(newPatient,patient);
+    ObjectUtils.copyNonNullProperties(newPatient,patient);
     patientRepository.save(patient);
 
   }
