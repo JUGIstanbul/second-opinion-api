@@ -27,7 +27,10 @@ public class Account {
 	private Date birthDate;
 	private String gender;
 	private LocalDate lastLogin;
-	
+	private String addictiveDrugProfile;
+	private String alcoholConsumptionProfile;
+	private String smokerProfile;
+
 	public Account(){}
 
 	public long getId() {
@@ -100,5 +103,29 @@ public class Account {
 
 	public void setLastLogin(LocalDate lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	public String getAddictiveDrugProfile() {
+		return addictiveDrugProfile;
+	}
+
+	public void setAddictiveDrugProfile(String addictiveDrugProfile) {
+		this.addictiveDrugProfile = addictiveDrugProfile;
+	}
+
+	public String getAlcoholConsumptionProfile() {
+		return alcoholConsumptionProfile;
+	}
+
+	public void setAlcoholConsumptionProfile(String alcoholConsumptionProfile) {
+		this.alcoholConsumptionProfile = alcoholConsumptionProfile;
+	}
+
+	public String getSmokerProfile() {
+		return smokerProfile;
+	}
+
+	public void setSmokerProfile(String smokerProfile) {
+		this.smokerProfile = smokerProfile;
 	}
 }

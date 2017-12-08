@@ -48,7 +48,7 @@ public class PatientServiceTest extends BaseMockitoTest {
     request.setEmail("eilhan@gmail.com");
     request.setPhone("05309547629");
 
-    Patient patient = patientConverter.apply(request);
+    Patient patient = patientConverter.convert(request);
 
         //When
         when(patientRepository.save(any(Patient.class))).thenReturn(patient);
@@ -89,7 +89,7 @@ public class PatientServiceTest extends BaseMockitoTest {
         .inOrder(patientValidator, patientRepository, patientEntityToInformationConverter);
     inOrder.verify(patientValidator).validate(id);
     inOrder.verify(patientRepository).findOne(id);
-    inOrder.verify(patientEntityToInformationConverter).apply(any(Patient.class));
+    inOrder.verify(patientEntityToInformationConverter).convert(any(Patient.class));
     inOrder.verifyNoMoreInteractions();
   }
 
