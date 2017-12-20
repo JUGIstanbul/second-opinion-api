@@ -1,5 +1,11 @@
 package org.jugistanbul.secondopinion.api.dto;
 
+import java.util.List;
+import java.util.Set;
+import org.jugistanbul.secondopinion.api.entity.PastChronicDisease;
+import org.jugistanbul.secondopinion.api.entity.PastMedicine;
+import org.jugistanbul.secondopinion.api.entity.PastOperation;
+
 public class PatientInformation {
 
   private String username;
@@ -13,6 +19,9 @@ public class PatientInformation {
   private String alcoholConsumptionProfile;
   private String smokerProfile;
   private String addictiveDrugProfile;
+  private Set<PastChronicDisease> chronicDiseases;
+  private Set<PastOperation> pastOperations;
+  private Set<PastMedicine> medications;
 
   public void setUsername(String username) {
     this.username = username;
@@ -100,5 +109,32 @@ public class PatientInformation {
 
   public void setAddictiveDrugProfile(String addictiveDrugProfile) {
     this.addictiveDrugProfile = addictiveDrugProfile;
+  }
+
+  public Set<PastChronicDisease> getChronicDiseases() {
+    return chronicDiseases;
+  }
+
+  public void setChronicDiseases(
+      Set<PastChronicDisease> chronicDiseases) {
+    this.chronicDiseases = chronicDiseases;
+  }
+
+  public Set<PastOperation> getPastOperations() {
+    return pastOperations;
+  }
+
+  public void setPastOperations(
+      Set<PastOperation> pastOperations) {
+    this.pastOperations = pastOperations;
+  }
+
+  public Set<PastMedicine> getMedications() {
+    return medications;
+  }
+
+  public void setMedications(
+      Set<PastMedicine> medications) {
+    this.medications = medications;
   }
 }
