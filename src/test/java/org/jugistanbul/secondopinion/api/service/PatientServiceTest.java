@@ -42,16 +42,11 @@ public class PatientServiceTest extends BaseMockitoTest {
   @Test
   public void should_create_patient() throws Exception {
     //Given
-    PatientInformation request = new PatientInformation();
-    request.setUsername("eilhan");
-    request.setPassword("test123");
-    request.setEmail("eilhan@gmail.com");
-    request.setPhone("05309547629");
-
+    PatientInformation request = this.createSamplePatientInformation();
     Patient patient = patientConverter.convert(request);
 
-        //When
-        when(patientRepository.save(any(Patient.class))).thenReturn(patient);
+    //When
+    when(patientRepository.save(any(Patient.class))).thenReturn(patient);
 
     //When
     PatientResponse patientResponse = patientService.create(request);
@@ -107,4 +102,22 @@ public class PatientServiceTest extends BaseMockitoTest {
     assertThat(throwable).isNotNull();
     assertThat(throwable).isInstanceOf(EntityNotFoundException.class);
   }
+  
+  private PatientInformation createSamplePatientInformation() {
+	    PatientInformation request = new PatientInformation();
+	    request.setUsername("eilhan");
+	    request.setPassword("test123");
+	    request.setEmail("eilhan@gmail.com");
+	    request.setPhone("05309547629");
+	    request.setAddress("demo");
+	    request.setBirthday("25/04/1982");
+	    request.setJob("demo");
+	    request.setGender("male");
+	    request.setSmokerProfile("demoSmokerProfile");
+	    request.setAddictiveDrugProfile("demoDrugProfile");
+	    request.setAlcoholConsumptionProfile("demoConsumptionProfile");
+	    
+	    return request;
+  }
+  
 }

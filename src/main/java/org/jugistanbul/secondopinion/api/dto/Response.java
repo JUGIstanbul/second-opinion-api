@@ -1,6 +1,6 @@
 package org.jugistanbul.secondopinion.api.dto;
 
-import org.jugistanbul.secondopinion.api.dto.enumtype.RequestStatus;
+import org.jugistanbul.secondopinion.api.types.RequestStatus;
 
 /**
  * @author Gökalp Gürbüzer (gokalp.gurbuzer@yandex.com)
