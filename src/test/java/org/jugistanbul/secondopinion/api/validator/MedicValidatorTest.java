@@ -1,11 +1,12 @@
 package org.jugistanbul.secondopinion.api.validator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
 import org.jugistanbul.secondopinion.api.entity.Medic;
 import org.junit.Test;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class MedicValidatorTest extends BaseMockitoTest{
 

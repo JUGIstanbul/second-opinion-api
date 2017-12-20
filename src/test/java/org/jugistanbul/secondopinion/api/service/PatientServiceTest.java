@@ -47,8 +47,6 @@ public class PatientServiceTest extends BaseMockitoTest {
 
     //When
     when(patientRepository.save(any(Patient.class))).thenReturn(patient);
-
-    //When
     PatientResponse patientResponse = patientService.create(request);
 
     //Then
@@ -105,12 +103,12 @@ public class PatientServiceTest extends BaseMockitoTest {
   
   private PatientInformation createSamplePatientInformation() {
 	    PatientInformation request = new PatientInformation();
-	    request.setUsername("eilhan");
+	    request.setUsername("user");
 	    request.setPassword("test123");
-	    request.setEmail("eilhan@gmail.com");
-	    request.setPhone("05309547629");
+	    request.setEmail("user@gmail.com");
+	    request.setPhone("05309547630");
 	    request.setAddress("demo");
-	    request.setBirthday("25/04/1982");
+	    request.setBirthday("01/01/1982");
 	    request.setJob("demo");
 	    request.setGender("male");
 	    request.setSmokerProfile("demoSmokerProfile");

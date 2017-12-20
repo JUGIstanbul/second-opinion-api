@@ -1,5 +1,11 @@
 package org.jugistanbul.secondopinion.api.controller;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Nickname;
 import org.jugistanbul.secondopinion.api.entity.NicknameCache;
@@ -11,13 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import javax.xml.ws.Response;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class NicknameControllerIT extends BaseIT {
 

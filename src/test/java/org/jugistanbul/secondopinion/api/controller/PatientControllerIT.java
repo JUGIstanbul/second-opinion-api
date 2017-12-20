@@ -66,7 +66,7 @@ public class PatientControllerIT extends BaseIT {
 	  //Then
 	  assertThat(patientInformationEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	  assertThat(patientInformation).isNotNull();	  
-	  assertEquals("eilhan@gmail.com",(patientInformation.getEmail()));
+	  assertEquals("user@gmail.com",(patientInformation.getEmail()));
 
   }
 
@@ -74,7 +74,7 @@ public class PatientControllerIT extends BaseIT {
   public void should_update_patient_account_info() {
     Patient patient = new Patient();
     patient.setPhone("5554443322");
-    patient.setEmail("adere@deloitte.com");
+    patient.setEmail("adere@yahoo.com");
     patient.setUsername("adere");
     patient.setPassword("Aa123456");
 
@@ -87,7 +87,7 @@ public class PatientControllerIT extends BaseIT {
     request.setGender("Bay");
     request.setAddress("Istanbul");
     request.setJob("Mühendis");
-    request.setAddictiveDrugProfile("Ekstazi");
+    request.setAddictiveDrugProfile("drug");
     request.setAlcoholConsumptionProfile("Haftada bir");
     request.setSmokerProfile("Günde yarım paket");
 
@@ -113,7 +113,7 @@ public class PatientControllerIT extends BaseIT {
     assertThat(responseEntity.getBody().getAddress().equals("Istanbul"));
     assertThat(responseEntity.getBody().getPhone().equals("05309541111"));
     assertThat(responseEntity.getBody().getJob().equals("Mühendis"));
-    assertThat(responseEntity.getBody().getAddictiveDrugProfile().equals("Ekstazi"));
+    assertThat(responseEntity.getBody().getAddictiveDrugProfile().equals("drug"));
     assertThat(responseEntity.getBody().getAlcoholConsumptionProfile().equals("Haftada bir"));
     assertThat(responseEntity.getBody().getSmokerProfile().equals("Günde yarım paket"));
 
@@ -121,12 +121,12 @@ public class PatientControllerIT extends BaseIT {
   
   private PatientInformation createSamplePatientInformation() {
 	    PatientInformation request = new PatientInformation();
-	    request.setUsername("eilhan");
+	    request.setUsername("user");
 	    request.setPassword("test123");
-	    request.setEmail("eilhan@gmail.com");
-	    request.setPhone("05309547629");
+	    request.setEmail("user@gmail.com");
+	    request.setPhone("05309547630");
 	    request.setAddress("demo");
-	    request.setBirthday("25/04/1982");
+	    request.setBirthday("01/01/1982");
 	    request.setJob("demo");
 	    request.setGender("male");
 	    request.setSmokerProfile("demoSmokerProfile");
