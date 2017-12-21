@@ -10,6 +10,7 @@ import java.util.List;
 import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
 import org.jugistanbul.secondopinion.api.entity.Medic;
 import org.jugistanbul.secondopinion.api.repository.MedicRepository;
+import org.jugistanbul.secondopinion.api.types.Gender;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +35,7 @@ public class MedicServiceTest extends BaseMockitoTest{
 		medic.setCurrentTitle("title");
 		medic.setEmail("email");
 		medic.setFullname("fullname");
-		medic.setGender("Male");
+		medic.setGender(Gender.MALE);
 		medic.setLicenseNumber("licenseNumber");
 		medic.setResumeLink("resumeLink");
 	}
@@ -54,7 +55,7 @@ public class MedicServiceTest extends BaseMockitoTest{
 		assertThat(foundMedic.getCurrentTitle()).isEqualTo("title");
 		assertThat(foundMedic.getEmail()).isEqualTo("email");
 		assertThat(foundMedic.getFullname()).isEqualTo("fullname");
-		assertThat(foundMedic.getGender()).isEqualTo("Male");
+		assertThat(foundMedic.getGender().toString()).isEqualTo("MALE");
 	}
 	
 	@Test
@@ -88,6 +89,6 @@ public class MedicServiceTest extends BaseMockitoTest{
 		assertThat(returnedMedic.getCurrentTitle()).isEqualTo("title");
 		assertThat(returnedMedic.getEmail()).isEqualTo("email");
 		assertThat(returnedMedic.getFullname()).isEqualTo("fullname");
-		assertThat(returnedMedic.getGender()).isEqualTo("Male");
+		assertThat(returnedMedic.getGender().toString()).isEqualTo("MALE");
 	}
 }

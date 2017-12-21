@@ -1,4 +1,4 @@
-package org.jugistanbul.secondopinion.api.dto.enumtype;
+package org.jugistanbul.secondopinion.api.types;
 
 /**
  * @author Gökalp Gürbüzer (gokalp.gurbuzer@yandex.com)

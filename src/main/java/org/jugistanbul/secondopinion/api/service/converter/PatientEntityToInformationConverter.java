@@ -1,6 +1,5 @@
 package org.jugistanbul.secondopinion.api.service.converter;
 
-import java.util.function.Function;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.springframework.core.convert.converter.Converter;
@@ -16,7 +15,7 @@ public class PatientEntityToInformationConverter implements Converter<Patient, P
     patientInformation.setPassword(patient.getPassword());
     patientInformation.setUsername(patient.getUsername());
     patientInformation.setPhone(patient.getPhone());
-    patientInformation.setGender(patient.getGender());
+    patientInformation.setGender(patient.getGender().toString());
     patientInformation.setAddress(patient.getAddress());
     patientInformation.setAddictiveDrugProfile(patient.getAddictiveDrugProfile());
     patientInformation.setAlcoholConsumptionProfile(patient.getAlcoholConsumptionProfile());

@@ -1,11 +1,11 @@
 package org.jugistanbul.secondopinion.api;
 
+import java.time.LocalDate;
+
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.repository.CaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class TestEntityHelper {

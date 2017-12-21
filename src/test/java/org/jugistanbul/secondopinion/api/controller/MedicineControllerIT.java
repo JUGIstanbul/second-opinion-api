@@ -1,5 +1,12 @@
 package org.jugistanbul.secondopinion.api.controller;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
+
+import java.net.URI;
+
 import org.jugistanbul.secondopinion.api.RestHelper;
 import org.jugistanbul.secondopinion.api.TestEntityHelper;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
@@ -17,13 +24,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.net.URI;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertNotNull;
 
 public class MedicineControllerIT extends BaseIT {
 

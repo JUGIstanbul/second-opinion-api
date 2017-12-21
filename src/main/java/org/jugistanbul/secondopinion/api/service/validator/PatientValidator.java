@@ -15,6 +15,10 @@ public class PatientValidator{
         if (patientInformation.getEmail() == null) {
             throw new EntityNotFoundException("email.required");
         }
+        
+        if (patientInformation.getGender() == null) {
+            throw new EntityNotFoundException("gender.required");
+        }
     }
 
     public void validate(Long id) {
