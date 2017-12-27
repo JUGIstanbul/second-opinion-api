@@ -15,7 +15,9 @@ public class PatientEntityToInformationConverter implements Converter<Patient, P
     patientInformation.setPassword(patient.getPassword());
     patientInformation.setUsername(patient.getUsername());
     patientInformation.setPhone(patient.getPhone());
-    patientInformation.setGender(patient.getGender().toString());
+    if (patient.getGender() != null) {
+      patientInformation.setGender(patient.getGender().toString());
+    }
     patientInformation.setAddress(patient.getAddress());
     patientInformation.setAddictiveDrugProfile(patient.getAddictiveDrugProfile());
     patientInformation.setAlcoholConsumptionProfile(patient.getAlcoholConsumptionProfile());
