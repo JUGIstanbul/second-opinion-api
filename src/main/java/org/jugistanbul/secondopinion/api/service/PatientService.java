@@ -43,7 +43,7 @@ public class PatientService {
     patientValidator.validate(id);
     Patient patient = patientRepository.findOne(id);
 
-    return patientEntityToInformationConverter.convert(patient);
+    return patient != null ? patientEntityToInformationConverter.convert(patient) : null;
   }
 
   public void putPatient(Long id, PatientInformation request) {
