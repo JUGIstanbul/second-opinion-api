@@ -21,6 +21,9 @@ public class PatientEntityToInformationConverter implements Converter<Patient, P
     patientInformation.setAlcoholConsumptionProfile(patient.getAlcoholConsumptionProfile());
     patientInformation.setSmokerProfile(patient.getSmokerProfile());
     patientInformation.setJob(patient.getJob());
+    patientInformation.setChronicDiseases(patient.getChronicDiseases());
+    patientInformation.setMedications(patient.getMedications());
+    patientInformation.setPastOperations(patient.getPastOperations());
 
     return patientInformation;
   }

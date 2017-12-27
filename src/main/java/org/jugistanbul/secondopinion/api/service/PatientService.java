@@ -54,7 +54,6 @@ public class PatientService {
     Patient patient = patientRepository.findOne(id);
     Patient newPatient = patientRequestToEntityConverter.convert(request);
 
-
     ObjectUtils.copyNonNullProperties(newPatient,patient);
     patientRepository.save(patient);
 

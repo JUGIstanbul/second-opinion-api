@@ -24,6 +24,9 @@ public class PatientRequestToEntityConverter implements Converter<PatientInforma
     patient.setAlcoholConsumptionProfile(patientInformation.getAlcoholConsumptionProfile());
     patient.setSmokerProfile(patientInformation.getSmokerProfile());
     patient.setJob(patientInformation.getJob());
+    patient.setChronicDiseases(patientInformation.getChronicDiseases());
+    patient.setMedications(patientInformation.getMedications());
+    patient.setPastOperations(patientInformation.getPastOperations());
 
     return patient;
   }
