@@ -10,6 +10,10 @@ public class PatientEntityToInformationConverter implements Converter<Patient, P
 
   @Override
   public PatientInformation convert(Patient patient) {
+    if (patient == null) {
+      return null;
+    }
+
     PatientInformation patientInformation = new PatientInformation();
     patientInformation.setEmail(patient.getEmail());
     patientInformation.setPassword(patient.getPassword());
