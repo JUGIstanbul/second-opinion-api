@@ -14,8 +14,6 @@ import javax.persistence.Table;
 @Table(name = "patient")
 public class Patient extends Account {
 
-
-  private String job;
   private String job;
 	private String addictiveDrugProfile;
 	private String alcoholConsumptionProfile;
@@ -30,13 +28,6 @@ public class Patient extends Account {
   @OneToMany(cascade = CascadeType.ALL)
   private Set<PastMedicine> medications;
 
-  public String getJob() {
-    return job;
-  }
-
-  public void setJob(String job) {
-    this.job = job;
-  }
 
   public Set<PastChronicDisease> getChronicDiseases() {
     return chronicDiseases;
