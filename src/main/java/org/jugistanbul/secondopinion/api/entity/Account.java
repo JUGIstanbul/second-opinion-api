@@ -9,7 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+
+import org.jugistanbul.secondopinion.api.types.Gender;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -25,11 +26,9 @@ public class Account {
 	private String phone;
 	private String address;
 	private Date birthDate;
-	private String gender;
+	private Gender gender;
 	private LocalDate lastLogin;
-	private String addictiveDrugProfile;
-	private String alcoholConsumptionProfile;
-	private String smokerProfile;
+
 
 	public Account(){}
 
@@ -89,11 +88,11 @@ public class Account {
 		this.birthDate = birthDate;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
@@ -105,27 +104,4 @@ public class Account {
 		this.lastLogin = lastLogin;
 	}
 
-	public String getAddictiveDrugProfile() {
-		return addictiveDrugProfile;
-	}
-
-	public void setAddictiveDrugProfile(String addictiveDrugProfile) {
-		this.addictiveDrugProfile = addictiveDrugProfile;
-	}
-
-	public String getAlcoholConsumptionProfile() {
-		return alcoholConsumptionProfile;
-	}
-
-	public void setAlcoholConsumptionProfile(String alcoholConsumptionProfile) {
-		this.alcoholConsumptionProfile = alcoholConsumptionProfile;
-	}
-
-	public String getSmokerProfile() {
-		return smokerProfile;
-	}
-
-	public void setSmokerProfile(String smokerProfile) {
-		this.smokerProfile = smokerProfile;
-	}
 }

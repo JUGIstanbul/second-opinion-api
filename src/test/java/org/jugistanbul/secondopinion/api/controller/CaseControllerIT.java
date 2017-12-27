@@ -1,26 +1,23 @@
 package org.jugistanbul.secondopinion.api.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.LocalDate;
+
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.jugistanbul.secondopinion.api.RestHelper;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
-import org.jugistanbul.secondopinion.api.entity.Treatment;
 import org.jugistanbul.secondopinion.api.repository.CaseRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
-import org.springframework.test.annotation.DirtiesContext;
-
-import java.net.URI;
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class CaseControllerIT extends BaseIT {
 

@@ -1,21 +1,17 @@
 package org.jugistanbul.secondopinion.api.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.City;
 import org.jugistanbul.secondopinion.api.repository.CityRepository;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CityControllerIT extends BaseIT{
     @Autowired

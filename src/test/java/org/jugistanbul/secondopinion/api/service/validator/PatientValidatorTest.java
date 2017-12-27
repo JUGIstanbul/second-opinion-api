@@ -1,13 +1,14 @@
 package org.jugistanbul.secondopinion.api.service.validator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+
 import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
+import org.jugistanbul.secondopinion.api.types.Gender;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 
 
 public class PatientValidatorTest extends BaseMockitoTest {
@@ -48,6 +49,7 @@ public class PatientValidatorTest extends BaseMockitoTest {
         //given
         PatientInformation patientInformation = new PatientInformation();
         patientInformation.setEmail("test@gmail.com");
+        patientInformation.setGender(Gender.MALE.toString());
 
         //when
         Throwable throwable = catchThrowable(() -> patientValidator.validate(patientInformation));

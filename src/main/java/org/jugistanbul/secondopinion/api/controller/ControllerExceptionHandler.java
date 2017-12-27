@@ -1,9 +1,9 @@
 package org.jugistanbul.secondopinion.api.controller;
 
 import org.jugistanbul.secondopinion.api.dto.Response;
-import org.jugistanbul.secondopinion.api.dto.enumtype.RequestStatus;
 import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
 import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
+import org.jugistanbul.secondopinion.api.types.RequestStatus;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;

@@ -8,6 +8,7 @@ import java.util.List;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Medic;
 import org.jugistanbul.secondopinion.api.repository.MedicRepository;
+import org.jugistanbul.secondopinion.api.types.Gender;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class MedicControllerIT extends BaseIT {
 		medic.setCurrentTitle("title");
 		medic.setEmail("email");
 		medic.setFullname("fullname");
-		medic.setGender("Male");
+		medic.setGender(Gender.MALE);
 		medic.setLicenseNumber("licenseNumber");
 		medic.setResumeLink("resumeLink");
 	}
