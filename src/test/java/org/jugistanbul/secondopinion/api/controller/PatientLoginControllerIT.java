@@ -1,12 +1,15 @@
 package org.jugistanbul.secondopinion.api.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.dto.PatientLoginInformation;
 import org.jugistanbul.secondopinion.api.dto.Response;
 import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.jugistanbul.secondopinion.api.repository.PatientRepository;
+import org.jugistanbul.secondopinion.api.types.RequestStatus;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -74,9 +77,9 @@ public class PatientLoginControllerIT extends BaseIT {
 
 		// Then
 		assertThat(patientLoginResponse).isNotNull();
-		assertThat(patientLoginResponse.getBody().getStatus().equals("FAILURE"));
-		assertThat(patientLoginResponse.getBody().getErrorCode().equals(2));
-		assertThat(patientLoginResponse.getBody().getErrorMessage().equals("Kullanici adi bulunamadi"));
+		assertThat(patientLoginResponse.getBody().getStatus(), equalTo(RequestStatus.FAILURE));
+		assertThat(patientLoginResponse.getBody().getErrorCode(), equalTo("2"));
+		assertThat(patientLoginResponse.getBody().getErrorMessage(), equalTo("Kullanici adi bulunamadi"));
 		assertThat(patientLoginResponse.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 
 	}
@@ -88,7 +91,9 @@ public class PatientLoginControllerIT extends BaseIT {
 		PatientLoginInformation request = this.createSamplePatientInLoginformation();
 
 		// When
-		patientRepository.save(new Patient());
+		Patient patient = createSamplePatientEntity();
+		patient.setPassword("InvalidPass");
+		patientRepository.save(patient);
 
 		// And Call
 		ResponseEntity<Response> patientLoginResponse = testRestTemplate.withBasicAuth("1", "1")
@@ -96,9 +101,9 @@ public class PatientLoginControllerIT extends BaseIT {
 
 		// Then
 		assertThat(patientLoginResponse).isNotNull();
-		assertThat(patientLoginResponse.getBody().getStatus().equals("FAILURE"));
-		assertThat(patientLoginResponse.getBody().getErrorCode().equals(3));
-		assertThat(patientLoginResponse.getBody().getErrorMessage().equals("Kullanici adi ile sifre eslesmedi"));
+		assertThat(patientLoginResponse.getBody().getStatus(), equalTo(RequestStatus.FAILURE));
+		assertThat(patientLoginResponse.getBody().getErrorCode(), equalTo("3"));
+		assertThat(patientLoginResponse.getBody().getErrorMessage(), equalTo("Kullanici adi ile sifre eslesmedi"));
 		assertThat(patientLoginResponse.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 
 	}
