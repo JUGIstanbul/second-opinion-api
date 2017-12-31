@@ -58,52 +58,10 @@ public class PatientLoginControllerIT extends BaseIT {
 
 		// Then
 		assertThat(patientLoginResponse).isNotNull();
-		assertThat(patientLoginResponse.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
-
-	}
-
-	@Test
-	public void should_return_username_notfound() {
-
-		// Given
-		PatientLoginInformation request = this.createSamplePatientInLoginformation();
-
-		// When
-		patientRepository.save(new Patient());
-
-		// And Call
-		ResponseEntity<Response> patientLoginResponse = testRestTemplate.withBasicAuth("1", "1")
-				.postForEntity("/v1/login", request, Response.class);
-
-		// Then
-		assertThat(patientLoginResponse).isNotNull();
 		assertThat(patientLoginResponse.getBody().getStatus(), equalTo(RequestStatus.FAILURE));
-		assertThat(patientLoginResponse.getBody().getErrorCode(), equalTo("2"));
-		assertThat(patientLoginResponse.getBody().getErrorMessage(), equalTo("Kullanici adi bulunamadi"));
-		assertThat(patientLoginResponse.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
-
-	}
-
-	@Test
-	public void should_return_password_mismatched() {
-
-		// Given
-		PatientLoginInformation request = this.createSamplePatientInLoginformation();
-
-		// When
-		Patient patient = createSamplePatientEntity();
-		patient.setPassword("InvalidPass");
-		patientRepository.save(patient);
-
-		// And Call
-		ResponseEntity<Response> patientLoginResponse = testRestTemplate.withBasicAuth("1", "1")
-				.postForEntity("/v1/login", request, Response.class);
-
-		// Then
-		assertThat(patientLoginResponse).isNotNull();
-		assertThat(patientLoginResponse.getBody().getStatus(), equalTo(RequestStatus.FAILURE));
-		assertThat(patientLoginResponse.getBody().getErrorCode(), equalTo("3"));
-		assertThat(patientLoginResponse.getBody().getErrorMessage(), equalTo("Kullanici adi ile sifre eslesmedi"));
+		assertThat(patientLoginResponse.getBody().getErrorCode(), equalTo("61"));
+		assertThat(patientLoginResponse.getBody().getErrorMessage(),
+				equalTo("Belirtilen giris kimlik bilgileri sistemde bulunamadi"));
 		assertThat(patientLoginResponse.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 
 	}

@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.jugistanbul.secondopinion.api.dto.Response;
 import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
 import org.jugistanbul.secondopinion.api.exception.EntityValidationException;
-import org.jugistanbul.secondopinion.api.exception.InvalidPasswordException;
-import org.jugistanbul.secondopinion.api.exception.InvalidUserNameException;
+import org.jugistanbul.secondopinion.api.exception.InvalidLoginCredentialsException;
 import org.jugistanbul.secondopinion.api.types.RequestStatus;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -36,16 +35,9 @@ public class ControllerExceptionHandler {
 		return createLocalizedResponse(exception);
 	}
 
-	@ExceptionHandler(InvalidUserNameException.class)
+	@ExceptionHandler(InvalidLoginCredentialsException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public Response handleInvalidUserNameException(HttpServletRequest request, Exception exception) {
-
-		return createLocalizedResponse(exception);
-	}
-
-	@ExceptionHandler(InvalidPasswordException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public Response handleInvalidPasswordException(HttpServletRequest request, Exception exception) {
+	public Response handleInvalidLoginCredentialsException(HttpServletRequest request, Exception exception) {
 
 		return createLocalizedResponse(exception);
 	}
