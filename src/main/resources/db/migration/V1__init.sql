@@ -5,13 +5,7 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
-
-
-
 DROP TABLE IF EXISTS `account`;
-
 CREATE TABLE `account` (
   `id` bigint(20) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
@@ -25,26 +19,14 @@ CREATE TABLE `account` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `city`;
-
 CREATE TABLE `city` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `educational_experience`;
-
 CREATE TABLE `educational_experience` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `grad_year` int(11) NOT NULL,
@@ -60,52 +42,28 @@ CREATE TABLE `educational_experience` (
   CONSTRAINT `FKmeh9xva4m40cvr10cbtmc3pji` FOREIGN KEY (`expertise_id`) REFERENCES `expertise` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `expertise`;
-
 CREATE TABLE `expertise` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `hibernate_sequences`;
-
 CREATE TABLE `hibernate_sequences` (
   `sequence_name` varchar(255) NOT NULL,
   `sequence_next_hi_value` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`sequence_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `hospital`;
-
 CREATE TABLE `hospital` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `media`;
-
 CREATE TABLE `media` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `create_time` datetime DEFAULT NULL,
@@ -120,13 +78,7 @@ CREATE TABLE `media` (
   CONSTRAINT `FK9hjlv13g23n9dnxrlmjiqi93e` FOREIGN KEY (`treatment_id`) REFERENCES `treatment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `medic`;
-
 CREATE TABLE `medic` (
   `current_title` varchar(255) DEFAULT NULL,
   `fullname` varchar(255) DEFAULT NULL,
@@ -139,13 +91,7 @@ CREATE TABLE `medic` (
   CONSTRAINT `FKdyp1jnph3sulhmgbtaptgp0un` FOREIGN KEY (`id`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `medical_case`;
-
 CREATE TABLE `medical_case` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `create_time` datetime DEFAULT NULL,
@@ -162,13 +108,7 @@ CREATE TABLE `medical_case` (
   CONSTRAINT `FKnonbw61hbta3jxym7i8hxyb8p` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `medical_case_treatments`;
-
 CREATE TABLE `medical_case_treatments` (
   `case_id` bigint(20) NOT NULL,
   `treatments_id` bigint(20) NOT NULL,
@@ -178,13 +118,7 @@ CREATE TABLE `medical_case_treatments` (
   CONSTRAINT `FKqcu5feolrnlp641xpg2pudhp8` FOREIGN KEY (`case_id`) REFERENCES `medical_case` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `medical_experience`;
-
 CREATE TABLE `medical_experience` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `end_date` datetime DEFAULT NULL,
@@ -204,13 +138,7 @@ CREATE TABLE `medical_experience` (
   CONSTRAINT `FKj1c6fumlg2tdgoysb0mx3y53t` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `medicine`;
-
 CREATE TABLE `medicine` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `create_time` datetime DEFAULT NULL,
@@ -227,13 +155,7 @@ CREATE TABLE `medicine` (
   CONSTRAINT `FKpq6xkp2666wkm7igimjrcf02q` FOREIGN KEY (`relevant_case_id`) REFERENCES `medical_case` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `nicknames`;
-
 CREATE TABLE `nicknames` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `create_time` datetime DEFAULT NULL,
@@ -243,13 +165,7 @@ CREATE TABLE `nicknames` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `past_chronic_disease`;
-
 CREATE TABLE `past_chronic_disease` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `diagnosis` varchar(255) DEFAULT NULL,
@@ -257,13 +173,7 @@ CREATE TABLE `past_chronic_disease` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `past_medicine`;
-
 CREATE TABLE `past_medicine` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `medicine_name` varchar(255) DEFAULT NULL,
@@ -272,13 +182,7 @@ CREATE TABLE `past_medicine` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `past_operation`;
-
 CREATE TABLE `past_operation` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `operation_name` varchar(255) DEFAULT NULL,
@@ -286,13 +190,7 @@ CREATE TABLE `past_operation` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `patient`;
-
 CREATE TABLE `patient` (
   `addictive_drug_profile` varchar(255) DEFAULT NULL,
   `alcohol_consumption_profile` varchar(255) DEFAULT NULL,
@@ -303,13 +201,7 @@ CREATE TABLE `patient` (
   CONSTRAINT `FK6lccqwhxi21py0046i5yhtu47` FOREIGN KEY (`id`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `patient_chronic_diseases`;
-
 CREATE TABLE `patient_chronic_diseases` (
   `patient_id` bigint(20) NOT NULL,
   `chronic_diseases_id` bigint(20) NOT NULL,
@@ -319,13 +211,7 @@ CREATE TABLE `patient_chronic_diseases` (
   CONSTRAINT `FKn5kmk76elyd72bhpkyg7ikksy` FOREIGN KEY (`chronic_diseases_id`) REFERENCES `past_chronic_disease` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `patient_medications`;
-
 CREATE TABLE `patient_medications` (
   `patient_id` bigint(20) NOT NULL,
   `medications_id` bigint(20) NOT NULL,
@@ -335,13 +221,7 @@ CREATE TABLE `patient_medications` (
   CONSTRAINT `FKme28qvie0ip2bo5vbygqhhqdf` FOREIGN KEY (`medications_id`) REFERENCES `past_medicine` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `patient_past_operations`;
-
 CREATE TABLE `patient_past_operations` (
   `patient_id` bigint(20) NOT NULL,
   `past_operations_id` bigint(20) NOT NULL,
@@ -351,13 +231,7 @@ CREATE TABLE `patient_past_operations` (
   CONSTRAINT `FKepil2yir1qij2etq9xayvgawc` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `treatment`;
-
 CREATE TABLE `treatment` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `create_time` datetime DEFAULT NULL,
@@ -370,21 +244,12 @@ CREATE TABLE `treatment` (
   CONSTRAINT `FKey2hnnxrve2rcd017hlh4x0vc` FOREIGN KEY (`relevant_case_id`) REFERENCES `medical_case` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-
-
-
 DROP TABLE IF EXISTS `university`;
-
 CREATE TABLE `university` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

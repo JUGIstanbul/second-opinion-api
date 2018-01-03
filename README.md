@@ -7,3 +7,4 @@ RestFul Service uses following Technologies:
 * Hibernate
 * JaCoCo
 * Swagger2
+* Flyway
