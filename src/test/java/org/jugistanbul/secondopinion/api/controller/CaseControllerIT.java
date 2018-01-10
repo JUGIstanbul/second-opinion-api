@@ -41,6 +41,7 @@ public class CaseControllerIT extends BaseIT {
         caseEntity.setIllnessStartDate(LocalDate.MAX);
         caseEntity.setNickname("R2-D2");
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
+        caseEntity.setPatient(patient);
         return caseEntity;
     }
 
@@ -70,8 +71,9 @@ public class CaseControllerIT extends BaseIT {
         //Then
         assertThat(cases).isNotNull();
         assertThat(cases).isNotEmpty();
-        assertThat(cases).isEqualTo(2);
+        assertThat(cases.size()).isEqualTo(2);
         assertThat(cases.get(0).getId()).isEqualTo(caseEntityList.get(0).getId());
+        assertThat(cases.get(1).getId()).isEqualTo(caseEntityList.get(1).getId());
     }
 
     @Test

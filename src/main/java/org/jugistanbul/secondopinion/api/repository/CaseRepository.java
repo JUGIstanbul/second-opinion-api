@@ -12,5 +12,5 @@ import java.util.List;
 @Repository
 public interface CaseRepository extends JpaRepository<Case, Long> {
 
-    List<Case> findByPatientId(Long patientId);
+    List<Case> findByPatient_Id(Long patientId);
 }

@@ -69,9 +69,9 @@ public class CaseService {
     }
 
 
-    public ResponseEntity getPatientCases(Long patientId) {
+    public ResponseEntity<List<Case>> getPatientCases(Long patientId) {
 
-        List<Case> patientCases =caseRepository.findByPatientId(patientId);
+        List<Case> patientCases =caseRepository.findByPatient_Id(patientId);
 
         patientCases = patientCases == null? Collections.emptyList():patientCases;
 
