@@ -5,6 +5,8 @@ import org.jugistanbul.secondopinion.api.service.CaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1")
 public class CaseController {
@@ -19,6 +21,12 @@ public class CaseController {
     @ResponseBody
     public ResponseEntity save(@RequestBody Case aCase) {
         return caseService.createCase(aCase);
+    }
+
+    @GetMapping(value = "/cases")
+    @ResponseBody
+    public ResponseEntity<List<Case>> getCasesByPatient(@RequestParam("patientId") Long patientId) {
+        return caseService.getPatientCases(patientId);
     }
 
     @DeleteMapping(value = "/cases/{caseid}")
