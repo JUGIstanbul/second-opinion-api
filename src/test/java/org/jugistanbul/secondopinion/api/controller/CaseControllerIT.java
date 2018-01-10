@@ -3,6 +3,8 @@ package org.jugistanbul.secondopinion.api.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -10,10 +12,14 @@ import org.jugistanbul.secondopinion.api.RestHelper;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
+import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.jugistanbul.secondopinion.api.repository.CaseRepository;
+import org.jugistanbul.secondopinion.api.repository.PatientRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -26,17 +32,89 @@ public class CaseControllerIT extends BaseIT {
 
     @Autowired
     CaseRepository caseRepository;
+    @Autowired
+    PatientRepository patientRepository;
 
-    @Test
-    public void should_save_case() throws Exception {
-        //given
+    public Case createTestCase(Patient patient)
+    {
         Case caseEntity = new Case();
         caseEntity.setIllnessStartDate(LocalDate.MAX);
         caseEntity.setNickname("R2-D2");
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
+        caseEntity.setPatient(patient);
+        return caseEntity;
+    }
 
+    @Test
+    public void should_return_cases_of_patient()
+    {
+        //Given
+        Patient patient = new Patient();
+        patient = patientRepository.save(patient);
 
-        caseEntity = caseRepository.save(caseEntity);
+        Case caseEntityı = caseRepository.save(createTestCase(patient));
+        Case caseEntity2 = caseRepository.save(createTestCase(patient));
+
+        List<Case> caseEntityList=new ArrayList<>();
+        caseEntityList.add(caseEntityı);
+        caseEntityList.add(caseEntity2);
+
+        caseEntityList=caseRepository.save(caseEntityList);
+
+        //When
+
+        ResponseEntity<List<Case>> response = testRestTemplate.withBasicAuth("1","1").
+               exchange("/v1/cases?patientId="+patient.getId(),
+            HttpMethod.GET, null, new ParameterizedTypeReference<List<Case>>() {
+            });
+        List<Case> cases = response.getBody();
+        //Then
+        assertThat(cases).isNotNull();
+        assertThat(cases).isNotEmpty();
+        assertThat(cases.size()).isEqualTo(2);
+        assertThat(cases.get(0).getId()).isEqualTo(caseEntityList.get(0).getId());
+        assertThat(cases.get(1).getId()).isEqualTo(caseEntityList.get(1).getId());
+    }
+
+    @Test
+    public void should_return_cases_as_empty_list_if_patient_not_have()
+    {
+        //Given
+        Patient patient = new Patient();
+        patient = patientRepository.save(patient);
+        //When
+
+        ResponseEntity<List<Case>> response = testRestTemplate.withBasicAuth("1","1").
+                exchange("/v1/cases?patientId="+patient.getId(),
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Case>>() {
+                        });
+        List<Case> cases = response.getBody();
+        //Then
+        assertThat(cases).isNotNull();
+        assertThat(cases).isEmpty();
+    }
+
+    @Test
+    public void should_return_cases_as_empty_list_if_patient_not_exist()
+    {
+        //Given
+        long patientId = 123123;
+        //When
+
+        ResponseEntity<List<Case>> response = testRestTemplate.withBasicAuth("1","1").
+                exchange("/v1/cases?patientId="+patientId,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Case>>() {
+                        });
+        List<Case> cases = response.getBody();
+        //Then
+        assertThat(cases).isNotNull();
+        assertThat(cases).isEmpty();
+    }
+
+    @Test
+    public void should_save_case() throws Exception {
+        //given
+        Case caseEntity = caseRepository.save(createTestCase(null));
 
         //when
         ResponseEntity entity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/cases", caseEntity, ResponseEntity.class);
