@@ -2,8 +2,10 @@ package org.jugistanbul.secondopinion.api.service;
 
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
+import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
 import org.jugistanbul.secondopinion.api.repository.CaseRepository;
+import org.jugistanbul.secondopinion.api.repository.PatientRepository;
 import org.jugistanbul.secondopinion.api.service.validator.CaseValidator;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -19,6 +23,8 @@ import java.util.Map;
 public class CaseService {
 
     private CaseRepository caseRepository;
+
+    private PatientRepository patientRepository;
 
     private CaseValidator caseValidator;
 
@@ -63,6 +69,13 @@ public class CaseService {
     }
 
 
+    public ResponseEntity getPatientCases(Long patientId) {
 
+        List<Case> patientCases =caseRepository.findByPatientId(patientId);
 
+        patientCases = patientCases == null? Collections.emptyList():patientCases;
+
+        return  new ResponseEntity<>(patientCases, HttpStatus.OK);
+
+    }
 }

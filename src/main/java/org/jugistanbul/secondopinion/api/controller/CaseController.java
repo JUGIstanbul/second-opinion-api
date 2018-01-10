@@ -21,6 +21,12 @@ public class CaseController {
         return caseService.createCase(aCase);
     }
 
+    @GetMapping(value = "/cases")
+    @ResponseBody
+    public ResponseEntity save(@RequestParam("patientId") Long patientId) {
+        return caseService.getPatientCases(patientId);
+    }
+
     @DeleteMapping(value = "/cases/{caseid}")
     @ResponseBody
     public ResponseEntity delete(@PathVariable("caseid") Long caseId) {
