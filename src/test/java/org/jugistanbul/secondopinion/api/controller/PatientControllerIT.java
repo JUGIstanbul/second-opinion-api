@@ -1,13 +1,20 @@
 package org.jugistanbul.secondopinion.api.controller;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.dto.PatientResponse;
+import org.jugistanbul.secondopinion.api.entity.PastChronicDisease;
+import org.jugistanbul.secondopinion.api.entity.PastMedicine;
+import org.jugistanbul.secondopinion.api.entity.PastOperation;
 import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.jugistanbul.secondopinion.api.repository.PatientRepository;
 import org.junit.Test;
@@ -69,6 +76,18 @@ public class PatientControllerIT extends BaseIT {
 	  assertEquals("user@gmail.com",(patientInformation.getEmail()));
 
   }
+  
+  @Test
+  public void should_fail_get_patient_account_info() throws Exception{
+	  
+	  Long nonExistingPatientId = Long.valueOf(1);
+	  
+	  ResponseEntity<PatientInformation> patientInformationEntity =  testRestTemplate.
+			  	withBasicAuth("1", "1").getForEntity("/v1/patients/"+ nonExistingPatientId, PatientInformation.class);
+	  
+	  
+	  assertThat(patientInformationEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+  }
 
   @Test
   public void should_update_patient_account_info() {
@@ -90,6 +109,29 @@ public class PatientControllerIT extends BaseIT {
     request.setAddictiveDrugProfile("drug");
     request.setAlcoholConsumptionProfile("Haftada bir");
     request.setSmokerProfile("Günde yarım paket");
+
+    PastChronicDisease pastChronicDisease = new PastChronicDisease();
+    pastChronicDisease.setYear(2014);
+    pastChronicDisease.setDiagnosis("Kalp");
+    PastChronicDisease pastChronicDisease2 = new PastChronicDisease();
+    pastChronicDisease2.setYear(2013);
+    pastChronicDisease2.setDiagnosis("Seker");
+    Set<PastChronicDisease> pastChronicDiseaseSet = new HashSet<>(Arrays.asList(pastChronicDisease, pastChronicDisease2));
+
+    PastMedicine pastMedicine = new PastMedicine();
+    pastMedicine.setMedicineName("Aspirin");
+    pastMedicine.setYearStarted(2012);
+    pastMedicine.setYearEnded(2014);
+    Set<PastMedicine> pastMedicineList = new HashSet<>(Arrays.asList(pastMedicine));
+
+    PastOperation pastOperation = new PastOperation();
+    pastOperation.setOperationName("Kil donmesi");
+    pastOperation.setYear(2009);
+    Set<PastOperation> pastOperationList = new HashSet<>(Arrays.asList(pastOperation));
+
+    request.setChronicDiseases(pastChronicDiseaseSet);
+    request.setMedications(pastMedicineList);
+    request.setPastOperations(pastOperationList);
 
 
     HttpEntity<PatientInformation> requestEntity = new HttpEntity<PatientInformation>(request);
@@ -116,6 +158,9 @@ public class PatientControllerIT extends BaseIT {
     assertThat(responseEntity.getBody().getAddictiveDrugProfile().equals("drug"));
     assertThat(responseEntity.getBody().getAlcoholConsumptionProfile().equals("Haftada bir"));
     assertThat(responseEntity.getBody().getSmokerProfile().equals("Günde yarım paket"));
+    assertThat(responseEntity.getBody().getChronicDiseases().equals(pastChronicDiseaseSet));
+    assertThat(responseEntity.getBody().getMedications().equals(pastMedicineList));
+    assertThat(responseEntity.getBody().getPastOperations().equals(pastOperationList));
 
   }
   

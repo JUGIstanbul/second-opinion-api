@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.jugistanbul.secondopinion.api.config.BaseMockitoTest;
@@ -71,19 +73,23 @@ public class PatientServiceTest extends BaseMockitoTest {
 
   @Test
   public void should_retrieve_patient() throws Exception {
-    //Given
-    Long id = 1L;
-
-    //When
-    PatientInformation patientInformation = patientService.retrievePatient(id);
-
-    //Then
-    InOrder inOrder = Mockito
-        .inOrder(patientValidator, patientRepository, patientEntityToInformationConverter);
-    inOrder.verify(patientValidator).validate(id);
-    inOrder.verify(patientRepository).findOne(id);
-    inOrder.verify(patientEntityToInformationConverter).convert(any(Patient.class));
-    inOrder.verifyNoMoreInteractions();
+	//Given
+	Long id = new Long(1); 
+	Patient patient = new Patient();  
+	  
+	when(patientRepository.findOne(id)).thenReturn(patient); 
+	when(patientEntityToInformationConverter.convert(patient)).thenReturn(new PatientInformation());
+	  
+	//When
+	PatientInformation patientInfo = patientService.retrievePatient(id);
+	  
+	//Then
+	assertThat(patientInfo).isNotNull();
+	
+	verify(patientValidator).validate(id);
+	verify(patientRepository).findOne(id);
+	verify(patientEntityToInformationConverter).convert(patient);
+	verifyNoMoreInteractions(patientValidator,patientRepository,patientEntityToInformationConverter);
   }
 
   @Test
