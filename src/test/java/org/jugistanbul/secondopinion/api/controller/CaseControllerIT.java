@@ -4,12 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.jugistanbul.secondopinion.api.RestHelper;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Case;
 import org.jugistanbul.secondopinion.api.entity.ModelStatus;
+import org.jugistanbul.secondopinion.api.entity.Treatment;
 import org.jugistanbul.secondopinion.api.repository.CaseRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +38,20 @@ public class CaseControllerIT extends BaseIT {
         caseEntity.setIllnessStartDate(LocalDate.MAX);
         caseEntity.setNickname("R2-D2");
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
+        caseEntity.setBodyPartsAffected("Yanlarım");
+        caseEntity.setPrimaryComplaint("Yanlarım agrıyor");
+        caseEntity.setSymptoms("Bulantı");
+        Treatment treatment = new Treatment();
+        treatment.setDescription("Fizik tedavi");
+        Set<Treatment> pastTreatmentList = new HashSet<>(Arrays.asList(treatment));
+        caseEntity.setTreatments(pastTreatmentList);
+
 
 
         caseEntity = caseRepository.save(caseEntity);
 
         //when
-        ResponseEntity entity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/cases", caseEntity, ResponseEntity.class);
+        ResponseEntity<Case> entity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/cases", caseEntity, Case.class);
         Long id = RestHelper.extractIdFromURI(entity.getHeaders().getLocation());
 
         Case theCase = caseRepository.findOne(id);
@@ -48,6 +60,11 @@ public class CaseControllerIT extends BaseIT {
         assertThat(theCase).isNotNull();
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(entity.getHeaders().getLocation().toString()).isEqualTo("/api/v1/cases/" + id);
+        assertThat(theCase.getBodyPartsAffected().equals("Yanlarım"));
+        assertThat(theCase.getPrimaryComplaint().equals("Yanlarım agrıyor"));
+        assertThat(theCase.getSymptoms().equals("Bulantı"));
+        assertThat(theCase.getTreatments().equals(pastTreatmentList));
+
     }
 
     @Test

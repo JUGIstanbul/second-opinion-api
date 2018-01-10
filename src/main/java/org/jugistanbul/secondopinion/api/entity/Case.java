@@ -28,10 +28,16 @@ public class Case extends EntityBase {
     private String note;
 
     @Column
+    private String primaryComplaint;
+
+    @Column
+    private String bodyPartsAffected;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private CaseStatus status;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Treatment> treatments = new HashSet<>();
 
     public Patient getPatient() {
@@ -88,5 +94,21 @@ public class Case extends EntityBase {
 
     public void setTreatments(Set<Treatment> treatments) {
         this.treatments = treatments;
+    }
+
+    public String getPrimaryComplaint() {
+        return primaryComplaint;
+    }
+
+    public void setPrimaryComplaint(String primaryComplaint) {
+        this.primaryComplaint = primaryComplaint;
+    }
+
+    public String getBodyPartsAffected() {
+        return bodyPartsAffected;
+    }
+
+    public void setBodyPartsAffected(String bodyPartsAffected) {
+        this.bodyPartsAffected = bodyPartsAffected;
     }
 }
