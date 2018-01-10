@@ -1,18 +1,12 @@
 sudo: false # faster builds
+language: java
+jdk:
+  - oraclejdk8
 
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
-
-addons:
-  sonarcloud:
-    organization: 'second-opinion-api'
-
-language: java
-
-jdk:
-  - oraclejdk8
 
 install:
   - 'mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V'
@@ -20,8 +14,7 @@ install:
 script:
   - 'mvn test'
   - 'mvn verify -Dit'
-  - 'mvn jacoco:report'
-  - 'mvn sonar:sonar'
+  - 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=second-opinion-api -Dsonar.login=$SONAR_CLOUD_TOKEN'
 
 after_success:
   - 'bash <(curl -s https://codecov.io/bash)'
