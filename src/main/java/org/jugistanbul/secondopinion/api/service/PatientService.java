@@ -3,6 +3,7 @@ package org.jugistanbul.secondopinion.api.service;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
 import org.jugistanbul.secondopinion.api.dto.PatientResponse;
 import org.jugistanbul.secondopinion.api.entity.Patient;
+import org.jugistanbul.secondopinion.api.exception.EntityNotFoundException;
 import org.jugistanbul.secondopinion.api.repository.PatientRepository;
 import org.jugistanbul.secondopinion.api.service.converter.PatientEntityToInformationConverter;
 import org.jugistanbul.secondopinion.api.service.converter.PatientRequestToEntityConverter;
@@ -42,6 +43,10 @@ public class PatientService {
   public PatientInformation retrievePatient(Long id) {
     patientValidator.validate(id);
     Patient patient = patientRepository.findOne(id);
+    
+    if(patient == null) {
+    		throw new EntityNotFoundException("entity.notFound");
+    }
 
     return patient != null ? patientEntityToInformationConverter.convert(patient) : null;
   }

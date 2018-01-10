@@ -1,12 +1,9 @@
 package org.jugistanbul.secondopinion.api.entity;
 
-import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -15,9 +12,9 @@ import javax.persistence.Table;
 public class Patient extends Account {
 
   private String job;
-	private String addictiveDrugProfile;
-	private String alcoholConsumptionProfile;
-	private String smokerProfile;
+  private String addictiveDrugProfile;
+  private String alcoholConsumptionProfile;
+  private String smokerProfile;
 
   @OneToMany(cascade = CascadeType.ALL)
   private Set<PastChronicDisease> chronicDiseases;
@@ -86,5 +83,5 @@ public class Patient extends Account {
 	public void setSmokerProfile(String smokerProfile) {
 		this.smokerProfile = smokerProfile;
 	}
-	
+
 }
