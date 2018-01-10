@@ -48,12 +48,12 @@ public class PatientService {
     		throw new EntityNotFoundException("entity.notFound");
     }
 
-    return patientEntityToInformationConverter.convert(patient);
+    return patient != null ? patientEntityToInformationConverter.convert(patient) : null;
   }
 
   public void putPatient(Long id, PatientInformation request) {
     patientValidator.validate(id);
-    // we can not call our current validate funtion here since there might be some parameters missing during update
+    // we can not call our current validate function here since there might be some parameters missing during update
     // patientValidator.validate(request);
 
     Patient patient = patientRepository.findOne(id);

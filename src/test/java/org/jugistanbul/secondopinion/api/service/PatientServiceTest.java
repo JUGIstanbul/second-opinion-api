@@ -19,10 +19,8 @@ import org.jugistanbul.secondopinion.api.service.converter.PatientRequestToEntit
 import org.jugistanbul.secondopinion.api.service.validator.PatientValidator;
 import org.junit.Test;
 import org.mockito.Answers;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 public class PatientServiceTest extends BaseMockitoTest {
 

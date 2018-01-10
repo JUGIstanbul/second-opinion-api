@@ -40,6 +40,7 @@
         <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
         <maven-versions-plugin.version>2.1</maven-versions-plugin.version>
         <maven-enforcer-plugin.version>1.4</maven-enforcer-plugin.version>
+        <flyway-core.version>5.0.4</flyway-core.version>
     </properties>
 
     <dependencies>
@@ -103,6 +104,11 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway-core.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

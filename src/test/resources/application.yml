@@ -14,7 +14,7 @@ spring:
     show-sql: false
     hibernate:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-      ddl-auto: create
+      ddl-auto: create-drop
 vm:
   defaultLocale: tr
   locales: tr,en
@@ -40,4 +40,6 @@ endpoints:
   metrics.enabled: true
   shutdown.enabled: false
   trace.enabled: false
+flyway:
+  enabled: false
 
