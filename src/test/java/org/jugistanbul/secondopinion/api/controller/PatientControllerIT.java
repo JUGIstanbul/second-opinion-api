@@ -1,15 +1,13 @@
 package org.jugistanbul.secondopinion.api.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.dto.PatientInformation;
@@ -77,6 +75,18 @@ public class PatientControllerIT extends BaseIT {
 	  assertThat(patientInformation).isNotNull();	  
 	  assertEquals("user@gmail.com",(patientInformation.getEmail()));
 
+  }
+  
+  @Test
+  public void should_fail_get_patient_account_info() throws Exception{
+	  
+	  Long nonExistingPatientId = Long.valueOf(1);
+	  
+	  ResponseEntity<PatientInformation> patientInformationEntity =  testRestTemplate.
+			  	withBasicAuth("1", "1").getForEntity("/v1/patients/"+ nonExistingPatientId, PatientInformation.class);
+	  
+	  
+	  assertThat(patientInformationEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
   }
 
   @Test
