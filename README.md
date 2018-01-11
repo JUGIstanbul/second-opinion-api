@@ -5,8 +5,14 @@
 
 
 RestFul Service uses following Technologies:
-* Spring-boot
+* Spring-Boot
+* Spring-Web
+* Spring-Data
+* Spring-Security
 * Hibernate
 * JaCoCo
-* Swagger2
+* Sonar
+* Swagger2 
 * Flyway
+* Junit
+* Mockito
