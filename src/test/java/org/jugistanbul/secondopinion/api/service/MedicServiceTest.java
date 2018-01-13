@@ -41,8 +41,7 @@ public class MedicServiceTest extends BaseMockitoTest{
 	}
 	
 	@Test
-	public void ShouldFindASpecificMedic(){
-		
+	public void should_find_a_specific_medic(){
 		
 		when(medicRepository.findOne(1L)).thenReturn(medic);
 		
@@ -59,7 +58,7 @@ public class MedicServiceTest extends BaseMockitoTest{
 	}
 	
 	@Test
-	public void ShouldFindAllMedics(){
+	public void should_find_all_medics(){
 		Medic medic1 = new Medic();
 		medic1.setId(1L);
 		Medic medic2 = new Medic();
@@ -78,7 +77,7 @@ public class MedicServiceTest extends BaseMockitoTest{
 	}
 	
 	@Test
-	public void ShouldSaveMedic(){
+	public void should_save_medic(){
 		when(medicRepository.save(medic)).thenReturn(medic);
 		Medic returnedMedic = medicService.save(medic);
 		

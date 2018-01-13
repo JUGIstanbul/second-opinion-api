@@ -49,7 +49,7 @@ public class PatientValidatorTest extends BaseMockitoTest {
         //given
         PatientInformation patientInformation = new PatientInformation();
         patientInformation.setEmail("test@gmail.com");
-        patientInformation.setGender(Gender.MALE.toString());
+        patientInformation.setGender(Gender.MALE);
 
         //when
         Throwable throwable = catchThrowable(() -> patientValidator.validate(patientInformation));

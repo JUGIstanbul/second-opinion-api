@@ -28,7 +28,10 @@ public class CityControllerIT extends BaseIT{
         cityRepository.save(city);
 
         //when
-        ResponseEntity<List> entity = testRestTemplate.withBasicAuth("1", "1").getForEntity("/v1/cities", List.class);
+        ResponseEntity<List> entity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/cities",
+                        List.class);
 
         //then
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);

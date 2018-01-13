@@ -59,24 +59,26 @@ public class CaseControllerIT extends BaseIT {
         treatment.setDescription("Fizik tedavi");
         Set<Treatment> pastTreatmentList = new HashSet<>(Arrays.asList(treatment));
         caseEntity.setTreatments(pastTreatmentList);
-
         caseEntity = caseRepository.save(caseEntity);
 
         //when
-        ResponseEntity<Case> entity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/cases", caseEntity, Case.class);
-        Long id = RestHelper.extractIdFromURI(entity.getHeaders().getLocation());
+        ResponseEntity<Case> entity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .postForEntity("/v1/cases",
+                        caseEntity,
+                        Case.class);
 
+        Long id = RestHelper.extractIdFromURI(entity.getHeaders().getLocation());
         Case theCase = caseRepository.findOne(id);
 
         //then
         assertThat(theCase).isNotNull();
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(entity.getHeaders().getLocation().toString()).isEqualTo("/api/v1/cases/" + id);
-        assertThat(theCase.getBodyPartsAffected().equals("Yanlarım"));
-        assertThat(theCase.getPrimaryComplaint().equals("Yanlarım agrıyor"));
-        assertThat(theCase.getSymptoms().equals("Bulantı"));
-        assertThat(theCase.getTreatments().equals(pastTreatmentList));
-
+        assertThat(theCase.getBodyPartsAffected()).isEqualTo("Yanlarım");
+        assertThat(theCase.getPrimaryComplaint()).isEqualTo("Yanlarım agrıyor");
+        assertThat(theCase.getSymptoms()).isEqualTo("Bulantı");
+        assertThat(theCase.getTreatments()).isEqualTo(pastTreatmentList);
     }
 
     @Test
@@ -84,13 +86,17 @@ public class CaseControllerIT extends BaseIT {
         //Given
         Patient patient = new Patient();
         patient = patientRepository.save(patient);
-        //When
 
-        ResponseEntity<List<Case>> response = testRestTemplate.withBasicAuth("1","1").
+        //When
+        ResponseEntity<List<Case>> response = testRestTemplate
+                .withBasicAuth("1","1").
                 exchange("/v1/cases?patientId="+patient.getId(),
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Case>>() {
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<Case>>() {
                         });
         List<Case> cases = response.getBody();
+
         //Then
         assertThat(cases).isNotNull();
         assertThat(cases).isEmpty();
@@ -100,13 +106,17 @@ public class CaseControllerIT extends BaseIT {
     public void should_return_cases_as_empty_list_if_patient_not_exist() {
         //Given
         long patientId = 123123;
-        //When
 
-        ResponseEntity<List<Case>> response = testRestTemplate.withBasicAuth("1","1").
+        //When
+        ResponseEntity<List<Case>> response = testRestTemplate.
+                withBasicAuth("1","1").
                 exchange("/v1/cases?patientId="+patientId,
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Case>>() {
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<Case>>() {
                         });
         List<Case> cases = response.getBody();
+
         //Then
         assertThat(cases).isNotNull();
         assertThat(cases).isEmpty();
@@ -120,20 +130,21 @@ public class CaseControllerIT extends BaseIT {
 
         Case caseEntityı = caseRepository.save(createTestCase(patient));
         Case caseEntity2 = caseRepository.save(createTestCase(patient));
-
         List<Case> caseEntityList=new ArrayList<>();
         caseEntityList.add(caseEntityı);
         caseEntityList.add(caseEntity2);
-
         caseEntityList=caseRepository.save(caseEntityList);
 
         //When
-
-        ResponseEntity<List<Case>> response = testRestTemplate.withBasicAuth("1","1").
+        ResponseEntity<List<Case>> response = testRestTemplate
+                .withBasicAuth("1","1").
                 exchange("/v1/cases?patientId="+patient.getId(),
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Case>>() {
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<Case>>() {
                         });
         List<Case> cases = response.getBody();
+
         //Then
         assertThat(cases).isNotNull();
         assertThat(cases).isNotEmpty();
@@ -148,10 +159,14 @@ public class CaseControllerIT extends BaseIT {
         Case caseEntity= new Case();
 
         // when
-        ResponseEntity<Void> responseEntity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/cases", caseEntity, Void.class);
+        ResponseEntity<Void> responseEntity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .postForEntity("/v1/cases",
+                        caseEntity,
+                        Void.class);
 
         // then
-        MatcherAssert.assertThat(responseEntity.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_ACCEPTABLE));
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Test
@@ -161,7 +176,10 @@ public class CaseControllerIT extends BaseIT {
         caseEntity = caseRepository.save(caseEntity);
 
         //when
-        ResponseEntity<Case> acase = testRestTemplate.withBasicAuth("1", "1").getForEntity("/v1/cases/" + caseEntity.getId(), Case.class);
+        ResponseEntity<Case> acase = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/cases/" + caseEntity.getId(),
+                        Case.class);
 
         //then
         assertThat(acase.getBody()).isNotNull();
@@ -169,11 +187,15 @@ public class CaseControllerIT extends BaseIT {
 
     @Test
     public void should_get_case_return_404() throws Exception {
-        //when
-        ResponseEntity<Void> responseEntity = testRestTemplate.withBasicAuth("1", "1").getForEntity("/v1/cases/1234567", Void.class);
+        //Given
 
-        //then
-        MatcherAssert.assertThat(responseEntity.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_FOUND));
+        //When
+        ResponseEntity<Void> responseEntity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/cases/1234567", Void.class);
+
+        //Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -185,14 +207,20 @@ public class CaseControllerIT extends BaseIT {
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
         caseEntity.setNote("superiz");
         caseEntity=caseRepository.save(caseEntity);
+
         //when
         caseEntity.setNote("hello world");
-        ResponseEntity<Void> putResponse = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/" + caseEntity.getId(), HttpMethod.PUT, new HttpEntity<>(caseEntity), Void.class);
+        ResponseEntity<Void> putResponse = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/cases/" + caseEntity.getId(),
+                        HttpMethod.PUT,
+                        new HttpEntity<>(caseEntity),
+                        Void.class);
 
-        MatcherAssert.assertThat(putResponse.getStatusCode(), Matchers.equalTo(HttpStatus.OK));
-        //then
         caseEntity = caseRepository.findOne(caseEntity.getId());
+
+        //then
+        assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(caseEntity.getNote()).isEqualTo("hello world");
     }
     @Test
@@ -204,133 +232,160 @@ public class CaseControllerIT extends BaseIT {
         caseEntity.setNickname("R2-D2");
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
         caseEntity.setNote("superiz");
-        caseEntity=caseRepository.save(caseEntity);
-
-        Case savedCase = caseRepository.findOne(caseEntity.getId());
+        Case persistedCase = caseRepository.save(caseEntity);
 
         // when
-        ResponseEntity<Void> putResponse = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/12345678", HttpMethod.PUT, new HttpEntity<>(savedCase), Void.class);
+        ResponseEntity<Void> putResponse = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/cases/12345678",
+                        HttpMethod.PUT,
+                        new HttpEntity<>(persistedCase),
+                        Void.class);
 
         // then
-        MatcherAssert.assertThat(putResponse.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_FOUND));
+        assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
-    public void should_put_return_406_for_Id() throws Exception {
+    public void should_put_return_406_when_case_not_have_an_id() throws Exception {
         // given
         Case caseEntity = new Case();
         caseEntity.setIllnessStartDate(LocalDate.MAX);
         caseEntity.setNickname("R2-D2");
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
         caseEntity.setNote("superiz");
-        caseEntity=caseRepository.save(caseEntity);
+        Case persistedCase = caseRepository.save(caseEntity);
+        Long caseId = persistedCase.getId();
 
-        Case savedCase = caseRepository.findOne(caseEntity.getId());
-        savedCase.setId(null);
+        Case updatedCaseOnClientSide = persistedCase;
+        updatedCaseOnClientSide.setId(null);
 
         // when
-        ResponseEntity<Void> putResponse = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/" + caseEntity.getId(), HttpMethod.PUT, new HttpEntity<>(savedCase), Void.class);
+        ResponseEntity<Void> putResponse = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/cases/" + caseId,
+                        HttpMethod.PUT,
+                        new HttpEntity<>(updatedCaseOnClientSide),
+                        Void.class);
 
         // then
-        MatcherAssert.assertThat(putResponse.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_ACCEPTABLE));
+        assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Test
-    public void should_put_return_406_for_symptoms() throws Exception {
-        // given
-
-        Case caseEntity = new Case();
-        caseEntity.setIllnessStartDate(LocalDate.MAX);
-        caseEntity.setNickname("R2-D2");
-        caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
-        caseEntity.setNote("superiz");
-        caseEntity=caseRepository.save(caseEntity);
-
-        Case savedCase = caseRepository.findOne(caseEntity.getId());
-        savedCase.setSymptoms(null);
-
-        // when
-        ResponseEntity<Void> putResponse = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/" + caseEntity.getId(), HttpMethod.PUT, new HttpEntity<>(savedCase), Void.class);
-
-        // then
-        MatcherAssert.assertThat(putResponse.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_ACCEPTABLE));
-    }
-
-    @Test
-    public void should_put_return_406_for_illnessStartDate() throws Exception {
+    public void should_put_return_406_when_symptoms_no_set() throws Exception {
         // given
         Case caseEntity = new Case();
         caseEntity.setIllnessStartDate(LocalDate.MAX);
         caseEntity.setNickname("R2-D2");
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
         caseEntity.setNote("superiz");
-        caseEntity=caseRepository.save(caseEntity);
+        Case persistedCase = caseRepository.save(caseEntity);
+        Long caseId = persistedCase.getId();
 
-        Case savedCase = caseRepository.findOne(caseEntity.getId());
-
-        // given
-        savedCase.setIllnessStartDate(null);
+        Case updatedCaseOnClientSide = persistedCase;
+        updatedCaseOnClientSide.setSymptoms(null);
 
         // when
-        ResponseEntity<Void> putResponse = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/" + caseEntity.getId(), HttpMethod.PUT, new HttpEntity<>(savedCase), Void.class);
+        ResponseEntity<Void> putResponse = testRestTemplate.
+                withBasicAuth("1", "1")
+                .exchange("/v1/cases/" + caseId,
+                        HttpMethod.PUT,
+                        new HttpEntity<>(updatedCaseOnClientSide),
+                        Void.class);
 
         // then
-        MatcherAssert.assertThat(putResponse.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_ACCEPTABLE));
+        assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Test
-    public void should_put_return_406_for_invalid_nickname() throws Exception {
+    public void should_put_return_406_when_illnessStartDate_not_set() throws Exception {
         // given
         Case caseEntity = new Case();
         caseEntity.setIllnessStartDate(LocalDate.MAX);
         caseEntity.setNickname("R2-D2");
         caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
         caseEntity.setNote("superiz");
-        caseEntity=caseRepository.save(caseEntity);
+        Case persistedCase = caseRepository.save(caseEntity);
+        Long caseId = persistedCase.getId();
 
-        Case savedCase = caseRepository.findOne(caseEntity.getId());
-        savedCase.setNickname(null);
+        Case updatedCaseOnClientSide = persistedCase;
+        updatedCaseOnClientSide.setIllnessStartDate(null);
 
         // when
-        ResponseEntity<Void> putResponse = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/" + caseEntity.getId(), HttpMethod.PUT, new HttpEntity<>(savedCase), Void.class);
+        ResponseEntity<Void> putResponse = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/cases/" + caseId,
+                        HttpMethod.PUT,
+                        new HttpEntity<>(updatedCaseOnClientSide),
+                        Void.class);
 
         // then
-        MatcherAssert.assertThat(putResponse.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_ACCEPTABLE));
+        assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @Test
+    public void should_put_return_406_when_nickname_not_set() throws Exception {
+        // given
+        Case caseEntity = new Case();
+        caseEntity.setIllnessStartDate(LocalDate.MAX);
+        caseEntity.setNickname("R2-D2");
+        caseEntity.setSymptoms("Lorem ipsum dolor sit amet");
+        caseEntity.setNote("superiz");
+        Case persistedCase = caseRepository.save(caseEntity);
+        Long caseId = persistedCase.getId();
+
+        Case updatedCaseOnClientSide = persistedCase;
+        updatedCaseOnClientSide.setNickname(null);
+
+        // when
+        ResponseEntity<Void> putResponse = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/cases/" + caseEntity.getId(),
+                        HttpMethod.PUT,
+                        new HttpEntity<>(updatedCaseOnClientSide),
+                        Void.class);
+
+        // then
+        assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Test
     public void should_delete_case() {
         // given
         Case caseEntity = new Case();
-
         caseEntity = caseRepository.save(caseEntity);
 
         //when
+        ResponseEntity entity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/cases/" + caseEntity.getId(),
+                        HttpMethod.DELETE,
+                        null,
+                        ResponseEntity.class);
 
-        ResponseEntity entity = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/" + caseEntity.getId(), HttpMethod.DELETE, null, ResponseEntity.class);
-
+        //then
         assertThat(entity).isNotNull();
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         Case theCase = caseRepository.findOne(caseEntity.getId());
-
         assertThat(theCase).isNotNull();
         assertThat(theCase.getModelStatus()).isEqualTo(ModelStatus.DELETED);
     }
 
     @Test
     public void should_delete_return_404_for_non_existing_case() throws Exception {
-        // when
-        ResponseEntity<Void> deleteCase = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/cases/12345678", HttpMethod.DELETE, HttpEntity.EMPTY, Void.class);
+        //given
 
-        // then
-        MatcherAssert.assertThat(deleteCase.getStatusCode(), Matchers.equalTo(HttpStatus.NOT_FOUND));
+        //when
+        ResponseEntity<Void> deleteCase = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/cases/12345678",
+                        HttpMethod.DELETE,
+                        HttpEntity.EMPTY,
+                        Void.class);
+
+        //then
+        assertThat(deleteCase.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 }

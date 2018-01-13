@@ -5,6 +5,7 @@ import java.util.Set;
 import org.jugistanbul.secondopinion.api.entity.PastChronicDisease;
 import org.jugistanbul.secondopinion.api.entity.PastMedicine;
 import org.jugistanbul.secondopinion.api.entity.PastOperation;
+import org.jugistanbul.secondopinion.api.types.Gender;
 
 public class PatientInformation {
 
@@ -12,7 +13,7 @@ public class PatientInformation {
   private String password;
   private String email;
   private String phone;
-  private String gender;
+  private Gender gender;
   private String address;
   private String birthday;
   private String job;
@@ -55,11 +56,11 @@ public class PatientInformation {
     return phone;
   }
 
-  public String getGender() {
+  public Gender getGender() {
     return gender;
   }
 
-  public void setGender(String gender) {
+  public void setGender(Gender gender) {
     this.gender = gender;
   }
 

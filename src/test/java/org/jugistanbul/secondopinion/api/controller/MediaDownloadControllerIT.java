@@ -1,9 +1,5 @@
 package org.jugistanbul.secondopinion.api.controller;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -28,6 +24,10 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Paths.get;
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Gökalp Gürbüzer (gokalp.gurbuzer@yandex.com)
  */
@@ -41,7 +41,6 @@ public class MediaDownloadControllerIT extends BaseIT {
 
     @Test
     public void should_return_duke() throws Exception {
-
         // given
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         ClassPathResource dukeResource = new ClassPathResource("Duke-Istanbul.png");
@@ -50,18 +49,24 @@ public class MediaDownloadControllerIT extends BaseIT {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         // when
-        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-        ResponseEntity<Media> result = testRestTemplate.withBasicAuth("1", "1")
-                .exchange("/v1/media", HttpMethod.POST, requestEntity, Media.class);
-        // then
+        ResponseEntity<Media> result = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/media",
+                        HttpMethod.POST,
+                        new HttpEntity<>(map, headers),
+                        Media.class);
 
+        // then
         RestTemplate restTemplate = getRawRestTemplate();
 
         ResponseEntity<byte[]> responseEntity = restTemplate
-                .exchange(result.getBody().getUrl(), HttpMethod.GET, HttpEntity.EMPTY, byte[].class);
+                .exchange(result.getBody().getUrl(),
+                        HttpMethod.GET,
+                        HttpEntity.EMPTY,
+                        byte[].class);
 
-        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.OK));
-        assertTrue(Arrays.equals(responseEntity.getBody(), Files.readAllBytes(Paths.get(dukeResource.getURI()))));
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(readAllBytes(get(dukeResource.getURI())));
 
     }
 
@@ -70,7 +75,12 @@ public class MediaDownloadControllerIT extends BaseIT {
 
         restTemplate.getMessageConverters().add(
                 new ByteArrayHttpMessageConverter());
-        restTemplate.setRequestFactory(new InterceptingClientHttpRequestFactory(restTemplate.getRequestFactory(), Collections.singletonList(new BasicAuthorizationInterceptor("1", "1"))));
+
+        restTemplate.setRequestFactory(
+                new InterceptingClientHttpRequestFactory(
+                        restTemplate.getRequestFactory(),
+                        Collections.singletonList(
+                                new BasicAuthorizationInterceptor("1", "1"))));
         return restTemplate;
     }
 }
