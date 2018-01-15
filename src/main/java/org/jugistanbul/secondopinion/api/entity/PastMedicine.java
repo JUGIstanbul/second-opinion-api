@@ -47,26 +47,4 @@ public class PastMedicine {
   public void setYearEnded(int yearEnded) {
     this.yearEnded = yearEnded;
   }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    PastMedicine that = (PastMedicine) o;
-
-    if (id != that.id) return false;
-    if (yearStarted != that.yearStarted) return false;
-    if (yearEnded != that.yearEnded) return false;
-    return medicineName.equals(that.medicineName);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = (int) (id ^ (id >>> 32));
-    result = 31 * result + medicineName.hashCode();
-    result = 31 * result + yearStarted;
-    result = 31 * result + yearEnded;
-    return result;
-  }
 }
