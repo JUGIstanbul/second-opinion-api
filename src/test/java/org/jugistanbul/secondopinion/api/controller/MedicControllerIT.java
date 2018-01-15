@@ -8,7 +8,9 @@ import java.util.List;
 import org.jugistanbul.secondopinion.api.config.BaseIT;
 import org.jugistanbul.secondopinion.api.entity.Medic;
 import org.jugistanbul.secondopinion.api.repository.MedicRepository;
+import org.jugistanbul.secondopinion.api.service.TruncateDatabaseService;
 import org.jugistanbul.secondopinion.api.types.Gender;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +87,10 @@ public class MedicControllerIT extends BaseIT {
 						medic,
 						Void.class);
 
+        Medic persistedMedic = medicRepository.findAll().get(0);
+
         //Then
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(entity.getHeaders().getLocation()).hasPath("/api/v1/medics/1");
+        assertThat(entity.getHeaders().getLocation()).hasPath("/api/v1/medics/"+persistedMedic.getId());
 	}
 }
