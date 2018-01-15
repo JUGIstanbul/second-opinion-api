@@ -22,12 +22,18 @@ public class HospitalControllerIT extends BaseIT {
 	
 	@Test
 	public void ShouldReturnAllHospitals() {
-		
+		//Given
 		hospitalRepository.save(new Hospital());
 		hospitalRepository.save(new Hospital());
 		hospitalRepository.save(new Hospital());
-        ResponseEntity<List> entityList = testRestTemplate.withBasicAuth("1", "1").getForEntity("/v1/hospitals", List.class);
-        
+
+		//When
+		ResponseEntity<List> entityList = testRestTemplate
+				.withBasicAuth("1", "1")
+				.getForEntity("/v1/hospitals",
+						List.class);
+
+        //Then
         assertThat(entityList.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(entityList.getBody().size()).isEqualTo(3);        
 	}

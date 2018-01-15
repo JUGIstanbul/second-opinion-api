@@ -17,6 +17,7 @@ import org.jugistanbul.secondopinion.api.entity.PastMedicine;
 import org.jugistanbul.secondopinion.api.entity.PastOperation;
 import org.jugistanbul.secondopinion.api.entity.Patient;
 import org.jugistanbul.secondopinion.api.repository.PatientRepository;
+import org.jugistanbul.secondopinion.api.types.Gender;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -27,157 +28,172 @@ import org.springframework.http.ResponseEntity;
 
 public class PatientControllerIT extends BaseIT {
 
-  @Autowired
-  TestRestTemplate testRestTemplate;
+    @Autowired
+    TestRestTemplate testRestTemplate;
 
-  @Autowired
-  PatientRepository patientRepository;
+    @Autowired
+    PatientRepository patientRepository;
 
-  @Test
-  public void should_create_patient() throws Exception {
-    //Given
-    PatientInformation request = this.createSamplePatientInformation();
+    @Test
+    public void should_create_patient() throws Exception {
+        //Given
+        PatientInformation request = this.createSamplePatientInformation();
 
-    //When
-    ResponseEntity<PatientResponse> responseEntity = testRestTemplate
-        .withBasicAuth("1", "1").postForEntity("/v1/patients", request, PatientResponse.class);
+        //When
+        ResponseEntity<PatientResponse> responseEntity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .postForEntity("/v1/patients",
+                        request,
+                        PatientResponse.class);
 
-    //Then
-    assertThat(responseEntity).isNotNull();
-    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        PatientResponse patientResponse = responseEntity.getBody();
 
-    PatientResponse patientResponse = responseEntity.getBody();
-    assertThat(patientResponse).isNotNull();
-    assertThat(patientResponse.getPatientId()).isNotNull();
-  }
+        //Then
+        assertThat(responseEntity).isNotNull();
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(patientResponse).isNotNull();
+        assertThat(patientResponse.getPatientId()).isNotNull();
+    }
 
-  @Test
-  public void should_get_patient_account_info() throws Exception {
-	  
-	  //Given
-	  PatientInformation request = this.createSamplePatientInformation();
-	  
-	  //When
-	  ResponseEntity<PatientResponse> responseEntity = testRestTemplate
-	       .withBasicAuth("1", "1").postForEntity("/v1/patients", request, PatientResponse.class);
-	  
-	  PatientResponse patientResponse = responseEntity.getBody();
-	  Long patiendId = patientResponse.getPatientId();
-	  
-	  ResponseEntity<PatientInformation> patientInformationEntity =  testRestTemplate.
-			  	withBasicAuth("1", "1").getForEntity("/v1/patients/"+patiendId, PatientInformation.class);
-	  
-	  PatientInformation patientInformation = patientInformationEntity.getBody();
-	
+    @Test
+    public void should_get_patient_account_info() throws Exception {
 
-	  //Then
-	  assertThat(patientInformationEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-	  assertThat(patientInformation).isNotNull();	  
-	  assertEquals("user@gmail.com",(patientInformation.getEmail()));
+        //Given
+        PatientInformation request = this.createSamplePatientInformation();
 
-  }
-  
-  @Test
-  public void should_fail_get_patient_account_info() throws Exception{
-	  
-	  Long nonExistingPatientId = Long.valueOf(1);
-	  
-	  ResponseEntity<PatientInformation> patientInformationEntity =  testRestTemplate.
-			  	withBasicAuth("1", "1").getForEntity("/v1/patients/"+ nonExistingPatientId, PatientInformation.class);
-	  
-	  
-	  assertThat(patientInformationEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-  }
+        //When
+        ResponseEntity<PatientResponse> responseEntity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .postForEntity("/v1/patients", request, PatientResponse.class);
 
-  @Test
-  public void should_update_patient_account_info() {
-    Patient patient = new Patient();
-    patient.setPhone("5554443322");
-    patient.setEmail("adere@yahoo.com");
-    patient.setUsername("adere");
-    patient.setPassword("Aa123456");
+        PatientResponse patientResponse = responseEntity.getBody();
+        Long patiendId = patientResponse.getPatientId();
 
-    Patient patientSaved = patientRepository.save(patient);
+        ResponseEntity<PatientInformation> patientInformationEntity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/patients/" + patiendId,
+                        PatientInformation.class);
 
-    Long userId = patientSaved.getId();
-
-    PatientInformation request = new PatientInformation();
-    request.setPhone("05309541111");
-    request.setGender("Bay");
-    request.setAddress("Istanbul");
-    request.setJob("Mühendis");
-    request.setAddictiveDrugProfile("drug");
-    request.setAlcoholConsumptionProfile("Haftada bir");
-    request.setSmokerProfile("Günde yarım paket");
-
-    PastChronicDisease pastChronicDisease = new PastChronicDisease();
-    pastChronicDisease.setYear(2014);
-    pastChronicDisease.setDiagnosis("Kalp");
-    PastChronicDisease pastChronicDisease2 = new PastChronicDisease();
-    pastChronicDisease2.setYear(2013);
-    pastChronicDisease2.setDiagnosis("Seker");
-    Set<PastChronicDisease> pastChronicDiseaseSet = new HashSet<>(Arrays.asList(pastChronicDisease, pastChronicDisease2));
-
-    PastMedicine pastMedicine = new PastMedicine();
-    pastMedicine.setMedicineName("Aspirin");
-    pastMedicine.setYearStarted(2012);
-    pastMedicine.setYearEnded(2014);
-    Set<PastMedicine> pastMedicineList = new HashSet<>(Arrays.asList(pastMedicine));
-
-    PastOperation pastOperation = new PastOperation();
-    pastOperation.setOperationName("Kil donmesi");
-    pastOperation.setYear(2009);
-    Set<PastOperation> pastOperationList = new HashSet<>(Arrays.asList(pastOperation));
-
-    request.setChronicDiseases(pastChronicDiseaseSet);
-    request.setMedications(pastMedicineList);
-    request.setPastOperations(pastOperationList);
+        PatientInformation patientInformation = patientInformationEntity.getBody();
 
 
-    HttpEntity<PatientInformation> requestEntity = new HttpEntity<PatientInformation>(request);
+        //Then
+        assertThat(patientInformationEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(patientInformation).isNotNull();
+        assertThat("user@gmail.com").isEqualTo(patientInformation.getEmail());
+    }
 
-    ResponseEntity<PatientInformation> response = testRestTemplate
-        .withBasicAuth("1", "1")
-        .exchange("/v1/patients/" + userId, HttpMethod.PUT, requestEntity, PatientInformation.class,
-            new HashMap<String, String>());
+    @Test
+    public void should_fail_get_patient_account_info() throws Exception {
+        //Given
+        Long nonExistingPatientId = Long.valueOf(1);
 
-    assertThat(response).isNotNull();
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //When
+        ResponseEntity<PatientInformation> patientInformationEntity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/patients/" + nonExistingPatientId,
+                        PatientInformation.class);
 
-    //When
-    ResponseEntity<PatientInformation> responseEntity = testRestTemplate
-        .withBasicAuth("1", "1")
-        .getForEntity("/v1/patients/{userId}", PatientInformation.class, userId);
+        //Then
+        assertThat(patientInformationEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 
-    assertThat(responseEntity).isNotNull();
-    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assertThat(responseEntity.getBody().getGender().equals("Bay"));
-    assertThat(responseEntity.getBody().getAddress().equals("Istanbul"));
-    assertThat(responseEntity.getBody().getPhone().equals("05309541111"));
-    assertThat(responseEntity.getBody().getJob().equals("Mühendis"));
-    assertThat(responseEntity.getBody().getAddictiveDrugProfile().equals("drug"));
-    assertThat(responseEntity.getBody().getAlcoholConsumptionProfile().equals("Haftada bir"));
-    assertThat(responseEntity.getBody().getSmokerProfile().equals("Günde yarım paket"));
-    assertThat(responseEntity.getBody().getChronicDiseases().equals(pastChronicDiseaseSet));
-    assertThat(responseEntity.getBody().getMedications().equals(pastMedicineList));
-    assertThat(responseEntity.getBody().getPastOperations().equals(pastOperationList));
+    @Test
+    public void should_update_patient_account_info() {
+        //Given
+        Patient patient = new Patient();
+        patient.setPhone("5554443322");
+        patient.setEmail("adere@yahoo.com");
+        patient.setUsername("adere");
+        patient.setPassword("Aa123456");
 
-  }
-  
-  private PatientInformation createSamplePatientInformation() {
-	    PatientInformation request = new PatientInformation();
-	    request.setUsername("user");
-	    request.setPassword("test123");
-	    request.setEmail("user@gmail.com");
-	    request.setPhone("05309547630");
-	    request.setAddress("demo");
-	    request.setBirthday("01/01/1982");
-	    request.setJob("demo");
-	    request.setGender("male");
-	    request.setSmokerProfile("demoSmokerProfile");
-	    request.setAddictiveDrugProfile("demoDrugProfile");
-	    request.setAlcoholConsumptionProfile("demoConsumptionProfile");
-	    
-	    return request;
-  }
+        Patient patientSaved = patientRepository.save(patient);
+
+        Long userId = patientSaved.getId();
+
+        PatientInformation request = new PatientInformation();
+        request.setPhone("05309541111");
+        request.setGender(Gender.MALE);
+        request.setAddress("Istanbul");
+        request.setJob("Mühendis");
+        request.setAddictiveDrugProfile("drug");
+        request.setAlcoholConsumptionProfile("Haftada bir");
+        request.setSmokerProfile("Günde yarım paket");
+
+        PastChronicDisease pastChronicDisease = new PastChronicDisease();
+        pastChronicDisease.setYear(2014);
+        pastChronicDisease.setDiagnosis("Kalp");
+        PastChronicDisease pastChronicDisease2 = new PastChronicDisease();
+        pastChronicDisease2.setYear(2013);
+        pastChronicDisease2.setDiagnosis("Seker");
+        Set<PastChronicDisease> pastChronicDiseaseSet = new HashSet<>(Arrays.asList(pastChronicDisease, pastChronicDisease2));
+
+        PastMedicine pastMedicine = new PastMedicine();
+        pastMedicine.setMedicineName("Aspirin");
+        pastMedicine.setYearStarted(2012);
+        pastMedicine.setYearEnded(2014);
+        Set<PastMedicine> pastMedicineList = new HashSet<>(Arrays.asList(pastMedicine));
+
+        PastOperation pastOperation = new PastOperation();
+        pastOperation.setOperationName("Kil donmesi");
+        pastOperation.setYear(2009);
+        Set<PastOperation> pastOperationList = new HashSet<>(Arrays.asList(pastOperation));
+
+        request.setChronicDiseases(pastChronicDiseaseSet);
+        request.setMedications(pastMedicineList);
+        request.setPastOperations(pastOperationList);
+
+        //When
+        HttpEntity<PatientInformation> requestEntity = new HttpEntity<PatientInformation>(request);
+
+        ResponseEntity<PatientInformation> putResponse = testRestTemplate
+                .withBasicAuth("1", "1")
+                .exchange("/v1/patients/" + userId,
+                        HttpMethod.PUT,
+                        requestEntity,
+                        PatientInformation.class,
+                        new HashMap<String, String>());
+
+        ResponseEntity<PatientInformation> getResponse = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/patients/{userId}",
+                        PatientInformation.class,
+                        userId);
+
+
+        //Then
+        assertThat(putResponse).isNotNull();
+        assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        PatientInformation patientInfo = getResponse.getBody();
+        assertThat(getResponse).isNotNull();
+        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(patientInfo.getGender()).isEqualTo(Gender.MALE);
+        assertThat(patientInfo.getAddress()).isEqualTo("Istanbul");
+        assertThat(patientInfo.getPhone()).isEqualTo("05309541111");
+        assertThat(patientInfo.getJob()).isEqualTo("Mühendis");
+        assertThat(patientInfo.getAddictiveDrugProfile()).isEqualTo("drug");
+        assertThat(patientInfo.getAlcoholConsumptionProfile()).isEqualTo("Haftada bir");
+        assertThat(patientInfo.getSmokerProfile()).isEqualTo("Günde yarım paket");
+        assertThat(patientInfo.getChronicDiseases()).extracting("diagnosis").contains(pastChronicDisease.getDiagnosis(), pastChronicDisease2.getDiagnosis());
+        assertThat(patientInfo.getMedications()).extracting("medicineName").contains(pastMedicine.getMedicineName());
+        assertThat(patientInfo.getPastOperations()).extracting("operationName").contains(pastOperation.getOperationName());
+    }
+
+    private PatientInformation createSamplePatientInformation() {
+        PatientInformation request = new PatientInformation();
+        request.setUsername("user");
+        request.setPassword("test123");
+        request.setEmail("user@gmail.com");
+        request.setPhone("05309547630");
+        request.setAddress("demo");
+        request.setBirthday("01/01/1982");
+        request.setJob("demo");
+        request.setGender(Gender.MALE);
+        request.setSmokerProfile("demoSmokerProfile");
+        request.setAddictiveDrugProfile("demoDrugProfile");
+        request.setAlcoholConsumptionProfile("demoConsumptionProfile");
+
+        return request;
+    }
 }

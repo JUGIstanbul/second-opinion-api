@@ -28,12 +28,11 @@ public class PatientLoginControllerIT extends BaseIT {
 
 		// Given
 		PatientLoginInformation request = this.createSamplePatientInLoginformation();
-
-		// When
 		patientRepository.save(createSamplePatientEntity());
 
-		// And Call
-		ResponseEntity<Response> patientLoginResponse = testRestTemplate.withBasicAuth("1", "1")
+		// When
+		ResponseEntity<Response> patientLoginResponse = testRestTemplate
+				.withBasicAuth("1", "1")
 				.postForEntity("/v1/login", request, Response.class);
 
 		// Then
@@ -45,24 +44,21 @@ public class PatientLoginControllerIT extends BaseIT {
 
 	@Test
 	public void should_return_login_forbidden() {
-
 		// Given
 		PatientLoginInformation request = this.createSamplePatientInLoginformation();
-
-		// When
 		patientRepository.save(new Patient());
 
-		// And Call
+		// When
 		ResponseEntity<Response> patientLoginResponse = testRestTemplate.withBasicAuth("1", "1")
 				.postForEntity("/v1/login", request, Response.class);
 
 		// Then
+		Response response = patientLoginResponse.getBody();
 		assertThat(patientLoginResponse).isNotNull();
-		assertThat(patientLoginResponse.getBody().getStatus(), equalTo(RequestStatus.FAILURE));
-		assertThat(patientLoginResponse.getBody().getErrorCode(), equalTo("61"));
-		assertThat(patientLoginResponse.getBody().getErrorMessage(),
-				equalTo("Belirtilen giris kimlik bilgileri sistemde bulunamadi"));
 		assertThat(patientLoginResponse.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		assertThat(response.getStatus()).isEqualTo(RequestStatus.FAILURE);
+		assertThat(response.getErrorCode()).isEqualTo("61");
+		assertThat(response.getErrorMessage()).isEqualTo("Belirtilen giris kimlik bilgileri sistemde bulunamadi");
 
 	}
 

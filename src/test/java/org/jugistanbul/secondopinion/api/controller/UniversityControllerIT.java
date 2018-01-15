@@ -29,7 +29,10 @@ public class UniversityControllerIT extends BaseIT {
         universityRepository.save(university);
 
         //when
-        ResponseEntity<List> entity = testRestTemplate.withBasicAuth("1", "1").getForEntity("/v1/universities", List.class);
+        ResponseEntity<List> entity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/universities",
+                        List.class);
 
         //then
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);

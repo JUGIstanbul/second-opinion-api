@@ -29,7 +29,10 @@ public class ExpertiseControllerIT extends BaseIT {
         expertiseRepository.save(expertise);
 
         //when
-        ResponseEntity<List> entity = testRestTemplate.withBasicAuth("1", "1").getForEntity("/v1/expertise", List.class);
+        ResponseEntity<List> entity = testRestTemplate
+                .withBasicAuth("1", "1")
+                .getForEntity("/v1/expertise",
+                        List.class);
 
         //then
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);

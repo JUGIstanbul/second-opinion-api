@@ -18,9 +18,7 @@ public class PatientRequestToEntityConverter implements Converter<PatientInforma
     patient.setPassword(patientInformation.getPassword());
     patient.setUsername(patientInformation.getUsername());
     patient.setPhone(patientInformation.getPhone());
-    if (patientInformation.getGender() != null) {
-      patient.setGender(Gender.toGender(patientInformation.getGender()));
-    }
+    patient.setGender(patientInformation.getGender());
     patient.setAddress(patientInformation.getAddress());
     patient.setAddictiveDrugProfile(patientInformation.getAddictiveDrugProfile());
     patient.setAlcoholConsumptionProfile(patientInformation.getAlcoholConsumptionProfile());

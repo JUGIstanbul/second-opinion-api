@@ -36,7 +36,6 @@ public class NicknameControllerIT extends BaseIT {
         nicknames.add(new Nickname("jetty"));
         nicknames.add(new Nickname("gokalp"));
         nicknames.add(new Nickname("hudson"));
-
     }
 
     @After
@@ -46,22 +45,31 @@ public class NicknameControllerIT extends BaseIT {
     }
 
     @Test
-    public void should_suggestanickname_frompredefinedlist() {
+    public void should_suggest_a_nickname_from_predefined_list() {
         // Given
         nicknameRepository.save(nicknames);
 
         // When
-        ResponseEntity<Nickname> responseEntity = restTemplate.withBasicAuth("1","1").getForEntity("/v1/nicknames", Nickname.class);
+        ResponseEntity<Nickname> responseEntity = restTemplate
+                .withBasicAuth("1","1")
+                .getForEntity("/v1/nicknames",
+                        Nickname.class);
+
         // Then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isIn(nicknames);
     }
 
     @Test
-    public void should_return_nocontent() {
+    public void should_return_no_content() {
         // Given
+
         // When
-        ResponseEntity<Nickname> responseEntity = restTemplate.withBasicAuth("1","1").getForEntity("/v1/nicknames", Nickname.class);
+        ResponseEntity<Nickname> responseEntity = restTemplate
+                .withBasicAuth("1","1")
+                .getForEntity("/v1/nicknames",
+                        Nickname.class);
+
         // Then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(responseEntity.getBody()).isNull();

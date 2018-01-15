@@ -42,32 +42,50 @@ public class MedicControllerIT extends BaseIT {
 	}
 
 	@Test
-	public void ShouldReturnAllMedics() {
+	public void should_return_all_medics() {
+		//Given
 		medicRepository.save(new Medic());
 		medicRepository.save(new Medic());
 		medicRepository.save(new Medic());
 
-		ResponseEntity<List> entityList = testRestTemplate.withBasicAuth("1", "1").getForEntity("/v1/medics",
-				List.class);
+		//When
+		ResponseEntity<List> entityList = testRestTemplate
+				.withBasicAuth("1", "1")
+				.getForEntity("/v1/medics", List.class);
 
+		//Then
 		assertThat(entityList.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entityList.getBody().size()).isGreaterThan(2);
 	}
 
 	@Test
-	public void ShouldReturnOneMedic() {
+	public void should_return_one_medic() {
+		//Given
 		Medic savedMedic = medicRepository.save(new Medic());
-		ResponseEntity<Medic> entityList = testRestTemplate.withBasicAuth("1", "1")
-				.getForEntity("/v1/medics/" + savedMedic.getId(), Medic.class);
 
+		//When
+		ResponseEntity<Medic> entityList = testRestTemplate
+				.withBasicAuth("1", "1")
+				.getForEntity("/v1/medics/" + savedMedic.getId(),
+						Medic.class);
+
+		//Then
 		assertThat(entityList.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entityList.getBody().getId()).isEqualTo(savedMedic.getId());
 	}
 	
 	@Test
-	public void ShouldSaveMedic(){
-        ResponseEntity<Void> entity = testRestTemplate.withBasicAuth("1", "1").postForEntity("/v1/medics", medic, Void.class);
-        
+	public void should_save_medic(){
+		//Given
+
+		//When
+        ResponseEntity<Void> entity = testRestTemplate
+				.withBasicAuth("1", "1")
+				.postForEntity("/v1/medics",
+						medic,
+						Void.class);
+
+        //Then
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(entity.getHeaders().getLocation()).hasPath("/api/v1/medics/1");
 	}
